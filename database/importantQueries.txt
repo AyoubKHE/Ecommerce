@@ -1,0 +1,111 @@
+WITH RECURSIVE
+    subcategories AS(
+    SELECT
+        pc.id,
+        pc.name,
+        pc.parent_id,
+        0 AS LEVEL
+    FROM
+        productscategories pc
+    WHERE
+        pc.id = 14
+    UNION ALL
+SELECT
+    pc2.id,
+    pc2.name,
+    pc2.parent_id,
+    sc.level + 1 AS LEVEL
+FROM
+    productscategories pc2
+INNER JOIN subcategories sc ON
+    pc2.parent_id = sc.id
+)
+SELECT
+    *
+FROM
+    subcategories
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+WITH RECURSIVE
+    parentCategories AS(
+    SELECT
+        pc1.id,
+        pc1.name,
+        pc1.parent_id
+    FROM
+        productscategories pc1
+    WHERE
+        pc1.id = 35
+    UNION ALL
+SELECT
+    pc2.id,
+    pc2.name,
+    pc2.parent_id
+FROM
+    productscategories pc2
+INNER JOIN parentCategories ON pc2.id = parentCategories.parent_id
+)
+SELECT
+    *
+FROM
+    parentCategories
+
+
+
+
+----------------------------------------------------------------------------------------------------
+
+
+product count
+WITH RECURSIVE
+    subcategories AS(
+    SELECT
+        pc.id,
+        pc.name,
+        pc.parent_id,
+        (
+        SELECT
+            COUNT(*)
+        FROM
+            productscategories_products pr_p
+        WHERE
+            pr_p.productCategory_id = pc.id
+    ) AS products_count
+FROM
+    productscategories pc
+WHERE
+    pc.id = 14
+UNION ALL
+SELECT
+    pc2.id,
+    pc2.name,
+    pc2.parent_id,
+    (
+    SELECT
+        COUNT(*)
+    FROM
+        productscategories_products pr_p
+    WHERE
+        pr_p.productCategory_id = pc2.id
+) AS products_count
+FROM
+    productscategories pc2
+INNER JOIN subcategories sc ON
+    pc2.parent_id = sc.id
+)
+SELECT
+    SUM(products_count)
+FROM
+    subcategories
+
+
+
+
+"categoryBrands" => ProductCategory_Product::join('products', 'productsCategories_products.product_id', '=', 'products.id')
+    ->join('brands', 'products.brand_id', '=', 'brands.id')
+    ->whereColumn('productsCategories_products.productCategory_id', 'productscategories.id')
+    ->select(DB::raw("GROUP_CONCAT(CONCAT(brands.id, ' : ' , brands.name) SEPARATOR ', ')")),
