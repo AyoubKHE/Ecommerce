@@ -31,3 +31,51 @@ document.addEventListener("DOMContentLoaded", function () {
         })
 })
 
+let enabledRadioButtons = {};
+
+let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribute"]');
+
+let selectedOptions = {};
+
+allAttributesRadioButtons.forEach(function (attributeRadioButton) {
+    attributeRadioButton.addEventListener("change", function () {
+        let attributeName = this.name.split("-")[1];
+        let attributeOption = this.value;
+
+        let enabledRadioButtons = {};
+
+        selectedOptions[attributeName] = attributeOption;
+
+
+        productVariations.forEach(function (variation) {
+
+            let currentVariationAttributesOptions = "";
+
+            for (const attribute_option of variation.attributes_options_pivot) {
+                if (attribute_option.attribute.name == attributeName) {
+                    currentVariationAttributesOptions = attribute_option.option.value;
+                    break;
+                }
+            }
+
+            if (currentVariationAttributesOptions == attributeOption) {
+                for (const attribute_option of variation.attributes_options_pivot) {
+                    if (attribute_option.attribute.name != attributeName) {
+
+                        if (!(attribute_option.attribute.name in enabledRadioButtons)) {
+                            enabledRadioButtons[attribute_option.attribute.name] = [];
+                        }
+
+                        if (!enabledRadioButtons[attribute_option.attribute.name].includes(attribute_option.option.value)) {
+                            enabledRadioButtons[attribute_option.attribute.name].push(attribute_option.option.value);
+                        }
+                    }
+                }
+            }
+
+        })
+
+        console.log(enabledRadioButtons)
+
+    })
+})
