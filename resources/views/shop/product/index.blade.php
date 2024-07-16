@@ -1,9 +1,8 @@
 @extends('shop.layouts.master', ['navCategories' => $data['navCategories']])
 
 @section('content')
-    @php
-        // dd($data);
-    @endphp
+
+    <input type="hidden" id="product_id" value="{{ $data['productData']["id"] }}">
 
     <section class="mt-5 ">
         <!-- Page Content Goes Here -->
@@ -759,7 +758,7 @@
                   }
                 }
               }'>
-                <div class="swiper-wrapper pb-5 pe-1">
+                {{-- <div class="swiper-wrapper pb-5 pe-1">
                     <div class="swiper-slide d-flex h-auto">
                         <!-- Card Product-->
                         <div class="card position-relative h-100 card-listing hover-trigger">
@@ -1151,7 +1150,7 @@
                             <span class="lead fw-bolder">See All</span>
                         </a>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Buttons-->
                 <div
@@ -1177,5 +1176,5 @@
 @endsection
 
 @section('js')
-    {{-- <script src="{{ asset('js/myScripts/shop/main.js') }}"></script> --}}
+    <script src="{{ asset('js/myScripts/shop/product/script.js') }}"></script>
 @endsection

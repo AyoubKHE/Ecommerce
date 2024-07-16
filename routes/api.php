@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Brands\BrandController;
 use App\Http\Controllers\Api\Products\ProductController;
 use App\Http\Controllers\Api\Shop\ProductsCategories\ProductCategoryController AS ShopProductCategoryController;
+use App\Http\Controllers\API\Shop\Product\ProductController AS ShopProductController;
 use App\Http\Controllers\Api\ProductsCategories\ProductCategoryController AS DashboardProductCategoryController;
 use App\Http\Controllers\Api\ProductsAttributes\ProductAttributeController;
 use App\Http\Controllers\Api\ProductsAttributesOptions\ProductAttributeOptionController;
@@ -63,6 +64,9 @@ Route::post("brands/filter", [BrandController::class, 'filter'])->name("brands.f
 
 
 Route::get("products-attributes/{attribute_name}/options", [ProductAttributeController::class, 'getAttributeOptions'])->name("products-attributes.getAttributeOptions")->middleware('JWTAuth');
+
+
+Route::get("product/{product_id}/variations", [ShopProductController::class, 'getProductVariations'])->name("product.variations")->middleware('JWTAuth');
 
 
 Route::delete("products-attributes-options/{products_attribute_option}", [ProductAttributeOptionController::class, 'destroy'])
