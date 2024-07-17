@@ -50,84 +50,35 @@ use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as Da
 Route::get("/test", function () {
 
 
-    // dd(SubCategoriesService::getActiveProductsListForSpecificCategory(2, 0, 1));
+    $product_id = 2;
 
-    // dd(SubCategoriesService::getActiveProductsListForSpecificCategory(1));
+    // WHERE variations.variation_options LIKE '% 6%' AND variations.variation_options LIKE '% 13%'
 
+    // dd("{$product_id} hello");
 
-    // dd(SubCategoriesService::getActiveProductsBrandsListForSpecificCategory(2));
+    $sub_query = DB::table('productsvariations_attributesoptions as pv_ao')
+        ->join("productsattributesoptions as pao", "pv_ao.productAttributeOption_id", "pao.id")
+        ->select('pv_ao.productVariation_id', DB::raw('GROUP_CONCAT(" ", pao.value SEPARATOR " , ") AS variation_options'))
+        ->whereIn('pv_ao.productVariation_id', function ($query) use ($product_id) {
+            $query->select('pv.id')
+                ->from('productsvariations as pv')
+                ->where('pv.product_id', $product_id);
+        })
+        ->groupBy('pv_ao.productVariation_id');
 
-    // $data = Cache::remember("productsCategories", 30, function () {
-    //     return ProductCategory::where("id", 2)
-    //         ->with("products", function ($query) {
-    //             $query->where("productsCategories_products.is_active", 1)
-    //                 ->with("images")
-    //                 ->with("brand")
-    //                 ->paginate(3, ['*'], 'page', 1);
-    //         })
-    //         ->first()->toArray();
-    // });
+    // dd($sub_query->toSql());
 
-    // $data = DB::table("productsCategories as pc")
-    //     ->join("productsCategories as pc2", "pc.parent_id", "=", "pc2.id")
-    //     ->join("productsCategories_products as pc_p", "pc.id", "=", "pc_p.productCategory_id")
-    //     ->join("products as p", "pc_p.product_id", "=", "p.id")
-    //     ->join("brands as b", "p.brand_id", "=", "b.id")
-    //     ->join("productsImages as pi", "p.id", "=", "pi.product_id")
-    //     ->where("pc_p.productCategory_id", 2)
-    //     ->where("pc_p.is_active", 1)
-    //     ->select(
-    //         [
-    //             "pc.id as categoryId",
-    //             "pc.name as categoryName",
-    //             "pc.description as categoryDescription",
-    //             "pc.image_path as categoryImagePath",
-    //             "pc.is_active as categoryIsActive",
-    //             "pc.show_on_website_header as categoryShowOnWebsiteHeader",
-    //             "pc.added_by as categoryAddedBy",
-    //             "pc2.name as parentCategory",
+    // Construire la requête principale avec les filtres
 
-    //             "p.id as productId",
-    //             "p.name as productName",
-    //             "p.description as productDescription",
-    //             "p.is_active as productIsActive",
-    //             "p.price as productPrice",
-    //             "p.added_by as productAddedBy",
-    //             "b.name as productBrand",
+    $a = "% s %";
 
-    //             "pi.id as imageId",
-    //             "pi.image_path as imagePath"
+    $main_query = DB::table(DB::raw("({$sub_query->toSql()}) as variations"))
+        ->select('variations.productVariation_id', 'variations.variation_options')
+        ->mergeBindings($sub_query)
+        ->whereRaw("variations.variation_options LIKE ?", $a)->get();
 
-    //         ]
-    //     )
-    //     ->groupBy("p.id")
-    //     ->get();
+    dd($main_query);
 
-    // dump($data);
-
-    // dd(ProductCategory::where("id", 2)
-    //     ->with("products", function ($query) {
-    //         $query->where("productsCategories_products.is_active", 1)
-    //             ->with("variations", function ($query) {
-    //                 $query->with("attributes_options_pivot", function ($query) {
-    //                     $query->with("attribute")->with("option");
-    //                 })
-    //                 ->limit(1)
-    //                     ->get();
-    //             });
-    //     })
-    //     ->first()->products->toArray());
-
-    // dd(str_replace(" ", "_", "panhomme"));
-
-    // dd(Product::where("id", 4)
-    //     ->with("variations", function ($query) {
-    //         $query->with("attributes_options_pivot", function ($query) {
-    //             $query->with("attribute")->with("option");
-    //         })
-    //             ->limit(1);
-    //     })
-    //     ->first()->toArray());
 
     // User::create([
     //     "first_name" => "Ayoub",

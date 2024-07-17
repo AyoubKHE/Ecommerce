@@ -3,79 +3,161 @@ let productId = document.getElementById("product_id").value;
 
 let productVariations = null;
 
-document.addEventListener("DOMContentLoaded", function () {
+// document.addEventListener("DOMContentLoaded", function () {
 
-    axios({
-        method: "GET",
-        url: `http://127.0.0.1:8000/api/product/${productId}/variations`,
-    })
-        .then(response => {
+//     axios({
+//         method: "GET",
+//         url: `http://127.0.0.1:8000/api/product/${productId}/variations`,
+//     })
+//         .then(response => {
 
-            console.log(response);
-            productVariations = response.data.productVariations;
-        })
-        .catch((error) => {
-            console.log(error);
-            if (error.response.status === 401) {
+//             console.log(response);
+//             productVariations = response.data.productVariations;
+//         })
+//         .catch((error) => {
+//             console.log(error);
+//             if (error.response.status === 401) {
 
-                window.location = "login";
-            }
-            else if (error.response.status === 403) {
+//                 window.location = "login";
+//             }
+//             else if (error.response.status === 403) {
 
-                alert("Vous n avez pas la permission de faire ça");
-            }
-            else {
+//                 alert("Vous n avez pas la permission de faire ça");
+//             }
+//             else {
 
-                alert("Y a un problème dans le systeme contacter l'admin");
-            }
-        })
-})
+//                 alert("Y a un problème dans le systeme contacter l'admin");
+//             }
+//         })
+// })
+
 
 let enabledRadioButtons = {};
 
-let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribute"]');
-
 let selectedOptions = {};
+
+let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribute"]');
 
 allAttributesRadioButtons.forEach(function (attributeRadioButton) {
     attributeRadioButton.addEventListener("change", function () {
+
+
+
         let attributeName = this.name.split("-")[1];
         let attributeOption = this.value;
 
         let enabledRadioButtons = {};
 
-        selectedOptions[attributeName] = attributeOption;
+        let lastSelected = {};
+        lastSelected[attributeName] = attributeOption
 
+        document.getElementById("spinner-container").innerHTML = `
+                <div class="spinner-border" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+            `
 
-        productVariations.forEach(function (variation) {
+        axios({
+            method: "GET",
+            url: `http://127.0.0.1:8000/api/product/${productId}/variations?${attributeName}=${attributeOption}`,
+        })
+            .then(response => {
 
-            let currentVariationAttributesOptions = "";
+                document.getElementById("spinner-container").innerHTML = "";
 
-            for (const attribute_option of variation.attributes_options_pivot) {
-                if (attribute_option.attribute.name == attributeName) {
-                    currentVariationAttributesOptions = attribute_option.option.value;
-                    break;
-                }
-            }
+                productVariations = response.data.productVariations;
 
-            if (currentVariationAttributesOptions == attributeOption) {
-                for (const attribute_option of variation.attributes_options_pivot) {
-                    if (attribute_option.attribute.name != attributeName) {
+                console.log(productVariations);
 
-                        if (!(attribute_option.attribute.name in enabledRadioButtons)) {
-                            enabledRadioButtons[attribute_option.attribute.name] = [];
+                for (const productVariation of productVariations) {
+                    productVariation.variation_options = productVariation.variation_options.split(", ");
+
+                    for (const variation_option of productVariation.variation_options) {
+
+                        let attributeName = variation_option.split("=")[0];
+                        let attributeOption = variation_option.split("=")[1];
+
+                        if (!(attributeName in lastSelected)) {
+
+                            if (!(attributeName in enabledRadioButtons)) {
+                                enabledRadioButtons[attributeName] = [];
+                            }
+
+                            if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
+                                enabledRadioButtons[attributeName].push(attributeOption);
+                            }
                         }
 
-                        if (!enabledRadioButtons[attribute_option.attribute.name].includes(attribute_option.option.value)) {
-                            enabledRadioButtons[attribute_option.attribute.name].push(attribute_option.option.value);
-                        }
                     }
                 }
-            }
 
-        })
+                let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
 
-        console.log(enabledRadioButtons)
+                allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
+                    let attributeName = attributesRadioButtonContainer.id.split("-")[2];
+                    let attributeOption = attributesRadioButtonContainer.id.split("-")[3];
+
+                    if (!(attributeName in lastSelected)) {
+                        if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
+                            attributesRadioButtonContainer.style.opacity = "0.4";
+
+                            attributesRadioButtonContainer.children[0].disabled = true;
+                            attributesRadioButtonContainer.children[0].checked = false;
+                        }
+                        else {
+                            attributesRadioButtonContainer.style.opacity = "1";
+
+                            attributesRadioButtonContainer.children[0].disabled = false;
+                        }
+                    }
+
+
+                })
+
+            })
+            .catch((error) => {
+                console.log(error);
+
+                document.getElementById("spinner-container").innerHTML = "";
+
+                if (error.response.status === 401) {
+
+                    window.location = "login";
+                }
+                else if (error.response.status === 403) {
+
+                    alert("Vous n avez pas la permission de faire ça");
+                }
+                else {
+
+                    alert("Y a un problème dans le systeme contacter l'admin");
+                }
+            })
+
 
     })
 })
+
+
+let resetFilterButton = document.getElementById("reset-filters");
+
+resetFilterButton.addEventListener("click", function () {
+    let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
+
+    allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
+        attributesRadioButtonContainer.style.opacity = "1";
+
+        attributesRadioButtonContainer.children[0].disabled = false;
+        attributesRadioButtonContainer.children[0].checked = false;
+    })
+})
+
+
+
+
+
+
+
+
+
+

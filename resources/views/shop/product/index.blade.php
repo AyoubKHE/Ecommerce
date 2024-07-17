@@ -1,8 +1,7 @@
 @extends('shop.layouts.master', ['navCategories' => $data['navCategories']])
 
 @section('content')
-
-    <input type="hidden" id="product_id" value="{{ $data['productData']["id"] }}">
+    <input type="hidden" id="product_id" value="{{ $data['productData']['id'] }}">
 
     <section class="mt-5 ">
         <!-- Page Content Goes Here -->
@@ -119,6 +118,7 @@
                             </div>
                         </div>
 
+                        <!-- Product Options-->
                         @foreach ($data['productData']['attributes'] as $product_attribute => $product_attribute_options)
                             <div class="py-4 widget-filter border-top">
 
@@ -127,10 +127,11 @@
                                 </small>
 
                                 @foreach ($product_attribute_options as $key => $option)
-                                    <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom">
-                                        <input type="radio" name="attribute-{{ str_replace(' ', '-', $product_attribute) }}"
-                                            value="{{ $option }}"
-                                            class="form-check-bg-input"
+                                    <div class="form-group d-inline-block mr-2 mb-2 form-check-bg form-check-custom"
+                                        id="container-attribute-{{ str_replace(' ', '-', $product_attribute) }}-{{ $option }}">
+                                        <input type="radio"
+                                            name="attribute-{{ str_replace(' ', '-', $product_attribute) }}"
+                                            value="{{ $option }}" class="form-check-bg-input"
                                             id="attribute-{{ str_replace(' ', '-', $product_attribute) }}-{{ $key }}">
                                         <label class="form-check-label fw-normal"
                                             for="attribute-{{ str_replace(' ', '-', $product_attribute) }}-{{ $key }}">{{ $option }}</label>
@@ -139,6 +140,20 @@
 
                             </div>
                         @endforeach
+
+                        <div id="spinner-container" style="text-align: center; margin-bottom: 10px">
+
+                        </div>
+
+                        <div style="text-align: center;">
+                            <button id="reset-filters"
+                                style="border: none; border-radius: 10px; color: #000000; background-color: #c2f190; width: 70px; display: inline-block;">
+                                reset
+                            </button>
+
+                        </div>
+
+
                         <!-- /Product Options-->
 
                         <!-- Add To Cart-->
