@@ -10,8 +10,6 @@ let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribut
 allAttributesRadioButtons.forEach(function (attributeRadioButton) {
     attributeRadioButton.addEventListener("change", function () {
 
-
-
         let attributeName = this.name.split("-")[1];
         let attributeOption = this.value;
 
@@ -34,56 +32,63 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
         })
             .then(response => {
 
+                function prepareEnabledRadioButtonsObject() {
+
+                    for (const productVariation of productVariations) {
+                        productVariation.variation_options = productVariation.variation_options.split(", ");
+
+                        for (const variation_option of productVariation.variation_options) {
+
+                            let attributeName = variation_option.split("=")[0];
+                            let attributeOption = variation_option.split("=")[1];
+
+                            if (!(attributeName in lastSelected)) {
+
+                                if (!(attributeName in enabledRadioButtons)) {
+                                    enabledRadioButtons[attributeName] = [];
+                                }
+
+                                if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
+                                    enabledRadioButtons[attributeName].push(attributeOption);
+                                }
+                            }
+
+                        }
+                    }
+                }
+
+                function modifiyAttributesRadioButtons() {
+                    let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
+
+                    allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
+                        let attributeName = attributesRadioButtonContainer.id.split("-")[2];
+                        let attributeOption = attributesRadioButtonContainer.id.split("-")[3];
+
+                        if (!(attributeName in lastSelected)) {
+                            if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
+                                attributesRadioButtonContainer.style.opacity = "0.4";
+
+                                attributesRadioButtonContainer.children[0].disabled = true;
+                                attributesRadioButtonContainer.children[0].checked = false;
+                            }
+                            else {
+                                attributesRadioButtonContainer.style.opacity = "1";
+
+                                attributesRadioButtonContainer.children[0].disabled = false;
+                            }
+                        }
+
+
+                    })
+                }
+
                 document.getElementById("spinner-container").innerHTML = "";
 
                 let productVariations = response.data.productVariations;
 
-                console.log(productVariations);
+                prepareEnabledRadioButtonsObject();
 
-                for (const productVariation of productVariations) {
-                    productVariation.variation_options = productVariation.variation_options.split(", ");
-
-                    for (const variation_option of productVariation.variation_options) {
-
-                        let attributeName = variation_option.split("=")[0];
-                        let attributeOption = variation_option.split("=")[1];
-
-                        if (!(attributeName in lastSelected)) {
-
-                            if (!(attributeName in enabledRadioButtons)) {
-                                enabledRadioButtons[attributeName] = [];
-                            }
-
-                            if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
-                                enabledRadioButtons[attributeName].push(attributeOption);
-                            }
-                        }
-
-                    }
-                }
-
-                let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
-
-                allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
-                    let attributeName = attributesRadioButtonContainer.id.split("-")[2];
-                    let attributeOption = attributesRadioButtonContainer.id.split("-")[3];
-
-                    if (!(attributeName in lastSelected)) {
-                        if (!enabledRadioButtons[attributeName].includes(attributeOption)) {
-                            attributesRadioButtonContainer.style.opacity = "0.4";
-
-                            attributesRadioButtonContainer.children[0].disabled = true;
-                            attributesRadioButtonContainer.children[0].checked = false;
-                        }
-                        else {
-                            attributesRadioButtonContainer.style.opacity = "1";
-
-                            attributesRadioButtonContainer.children[0].disabled = false;
-                        }
-                    }
-
-
-                })
+                modifiyAttributesRadioButtons();
 
             })
             .catch((error) => {
