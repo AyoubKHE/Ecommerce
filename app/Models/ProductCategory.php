@@ -37,7 +37,23 @@ class ProductCategory extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, "productscategories_products", "productcategory_id", "product_id", "id", "id")->withPivot("is_active");
+        return $this->belongsToMany(Product::class, "productscategories_products", "productcategory_id", "product_id", "id", "id")
+        ->withPivot("is_active")
+        ->with("addedBy")
+        ->with("brand")
+        ->with("images")
+        ->where("productsCategories_products.is_active", 1);
+    }
+
+    public function productsExcept(int $except_id)
+    {
+        return $this->belongsToMany(Product::class, "productscategories_products", "productcategory_id", "product_id", "id", "id")
+        ->withPivot("is_active")
+        ->with("addedBy")
+        ->with("brand")
+        ->with("images")
+        ->where("products.id", "!=", $except_id)
+        ->where("productsCategories_products.is_active", 1);
     }
 
     // public function productsPivot()

@@ -17,6 +17,8 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 
         let enabledRadioButtons = {};
 
+        selectedOptions[attributeName] = attributeOption;
+
         let lastSelected = {};
         lastSelected[attributeName] = attributeOption
 
