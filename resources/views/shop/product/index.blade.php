@@ -94,8 +94,8 @@
                         <h1 class="mb-2 fs-2 fw-bold">{{ $data['productData']['name'] }}</h1>
 
                         <div class="d-flex justify-content-start align-items-center">
-                            <p class="lead fw-bolder m-0 fs-3 lh-1 text-danger me-2">{{ $data['productData']['price'] }} DA
-                            </p>
+                            <p class="lead fw-bolder m-0 fs-3 lh-1 text-danger me-2" id="product-price">
+                                {{ $data['productData']['price'] }} DA</p>
 
                             <s class="lh-1 me-2"><span class="fw-bolder m-0">$94.99</span></s><span
                                 style="color: red">***</span>
@@ -122,7 +122,8 @@
                         @foreach ($data['productData']['attributes'] as $product_attribute => $product_attribute_options)
                             <div class="py-4 widget-filter border-top">
 
-                                <small class="text-uppercase d-block fw-bolder mb-2" id="attribute-label-{{ str_replace(' ', '-', $product_attribute) }}">
+                                <small class="text-uppercase d-block fw-bolder mb-2"
+                                    id="attribute-label-{{ str_replace(' ', '-', $product_attribute) }}">
                                     {{ $product_attribute }} :
                                 </small>
 
@@ -145,6 +146,10 @@
 
                         </div>
 
+                        <div id="variation-more-details" style="text-align: center; margin-bottom: 10px">
+
+                        </div>
+
                         <div style="text-align: center; margin-bottom: 20px">
                             <button id="reset-filters"
                                 style="border: none; border-radius: 10px; color: #000000; background-color: #c2f190; width: 70px; display: inline-block;">
@@ -155,7 +160,7 @@
 
                         <div class="d-flex align-items-center" style="gap: 10px">
 
-                            <input type="number" style="height: 55px; width: 10%; text-align: center; border-radius: 5px"
+                            <input type="number" id="quantity-of-variation" style="height: 55px; width: 10%; text-align: center; border-radius: 5px"
                                 value="1">
 
                             <!-- Add To Cart-->
@@ -249,7 +254,7 @@
                             aria-labelledby="details-tab">
                             <div class="col-12 col-lg-10 mx-auto">
                                 <div class="row g-5">
-                                    {{ $data['productData']["description"] }}
+                                    {{ $data['productData']['description'] }}
                                     {{-- <div class="col-12 col-md-6">
                                         <p>Soft, stretchy - the most flattering product of the season! What could be easier?
                                             Beautifully soft and
@@ -752,7 +757,6 @@
                             ])
                             <!--/ Card Product-->
                         </div>
-
                     @endforeach
 
                     <div class="swiper-slide d-flex h-auto justify-content-center align-items-center">

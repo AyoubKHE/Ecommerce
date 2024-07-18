@@ -12,6 +12,8 @@ let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribut
 allAttributesRadioButtons.forEach(function (attributeRadioButton) {
     attributeRadioButton.addEventListener("change", function () {
 
+        document.getElementById("variation-more-details").innerHTML = "";
+
         let attributeName = this.name.split("-")[1];
         let attributeOption = this.value;
 
@@ -84,6 +86,57 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
                     })
                 }
 
+                function manageUI() {
+
+                    url = `http://127.0.0.1:8000/api/product/${productId}/variations?`;
+
+                    selectedOptions.forEach(function (selectedOption) {
+                        let attributeName = selectedOption.name.split("-")[1];
+                        let attributeOption = selectedOption.value;
+
+                        url += `${attributeName}=${attributeOption}&`
+                    })
+
+                    document.getElementById("variation-more-details").innerHTML = `
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    `
+
+                    axios({
+                        method: "GET",
+                        url: url,
+                    })
+                        .then(response => {
+
+                            // document.getElementById('product-price').innerHTML.trim().split(' ')[0]
+
+                            let productVariation = response.data.productVariations[0];
+
+                            document.getElementById("variation-more-details").innerHTML = `
+                                <h4 style="color: green; font-family: 'remixicon'">${productVariation.quantity_in_stock} en stock</h4>
+                            `
+
+                            let productPrice = document.getElementById('product-price').innerHTML.trim().split(' ')[0];
+
+                            if (productPrice != productVariation.price) {
+                                document.getElementById("variation-more-details").innerHTML += `
+                                    <h3 style="color: #db1a2a; font-family: cursive;">Prix spécial pour cette variation : ${productVariation.price} DA</h3>
+                                `
+                            }
+
+                            document.getElementById("quantity-of-variation").min = 1;
+                            document.getElementById("quantity-of-variation").max = productVariation.quantity_in_stock;
+
+
+
+                        })
+                        .catch((error) => {
+
+                        })
+
+                }
+
                 document.getElementById("spinner-container").innerHTML = "";
 
                 let productVariations = response.data.productVariations;
@@ -94,10 +147,10 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 
                 let attributesCount = document.querySelectorAll('small[id*="attribute-label-"]').length;
 
-                let selectedOptionsCount = document.querySelectorAll('input[name*="attribute"]:checked').length;
+                let selectedOptions = document.querySelectorAll('input[name*="attribute"]:checked');
 
-                if(selectedOptionsCount == attributesCount) {
-                    
+                if (selectedOptions.length == attributesCount) {
+                    manageUI();
                 }
 
             })
@@ -128,6 +181,9 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 let resetFilterButton = document.getElementById("reset-filters");
 
 resetFilterButton.addEventListener("click", function () {
+
+    document.getElementById("variation-more-details").innerHTML = "";
+
     let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
 
     allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
