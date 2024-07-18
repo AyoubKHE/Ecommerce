@@ -134,7 +134,7 @@ class ProductCategoryController extends Controller
 
         static::prepareLinksData();
 
-        dd(static::$data);
+        // dd(static::$data);
 
         return view("shop.categories.index", ["data" => static::$data]);
     }

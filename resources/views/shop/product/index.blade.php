@@ -157,19 +157,27 @@
                             </button>
 
                         </div>
+                        <!-- Add To Cart-->
+                        <form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data"
+                            id="cart-form">
+
+                            @csrf
+
+                            <input id="variation-id" type="hidden" name="variation_id" value="">
+
+                            <div class="d-flex align-items-center" style="gap: 10px">
+                                <input type="number" id="quantity-of-variation" name="variation_quantity"
+                                    style="height: 55px; width: 10%; text-align: center; border-radius: 5px" value="1">
+
+                                <button type="submit" class="btn btn-dark btn-dark-chunky flex-grow-1 me-2 text-white"
+                                    style="border-radius: 5px">Ajouter au panier
+                                </button>
+                            </div>
+                        </form>
+                        <!-- /Add To Cart-->
 
                         <div class="d-flex align-items-center" style="gap: 10px">
 
-                            <input type="number" id="quantity-of-variation" style="height: 55px; width: 10%; text-align: center; border-radius: 5px"
-                                value="1">
-
-                            <!-- Add To Cart-->
-                            <div class="d-flex justify-content-between" style="width: 90%">
-                                <button class="btn btn-dark btn-dark-chunky flex-grow-1 me-2 text-white"
-                                    style="border-radius: 5px">Ajouter au panier</button>
-                                {{-- <button class="btn btn-orange btn-orange-chunky"><i class="ri-heart-line"></i></button> --}}
-                            </div>
-                            <!-- /Add To Cart-->
                         </div>
 
                         <!-- /Product Options-->
@@ -180,7 +188,8 @@
                         <div class="my-4">
                             <div class="d-flex justify-content-start align-items-center">
                                 <p class="fw-bolder lh-1 mb-0 me-3">Share</p>
-                                <ul class="list-unstyled p-0 m-0 d-flex justify-content-start lh-1 align-items-center mt-1">
+                                <ul
+                                    class="list-unstyled p-0 m-0 d-flex justify-content-start lh-1 align-items-center mt-1">
                                     <li class="me-2"><a class="text-decoration-none" href="#" role="button"><i
                                                 class="ri-facebook-box-fill"></i></a></li>
                                     <li class="me-2"><a class="text-decoration-none" href="#" role="button"><i

@@ -32,6 +32,7 @@ use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseCon
 use App\Http\Controllers\Web\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
 use App\Http\Controllers\Web\Shop\Product\ProductController as ShopProductController;
 use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as DashboardProductCategoryController;
+use App\Http\Controllers\Web\Shop\Cart\CartController;
 
 // use App\Http\Controllers\AuthController;
 
@@ -91,6 +92,8 @@ Route::get('/', [ShopShowcaseController::class, "index"])->name("shop.showcase")
 Route::get('/shop/products-categories/{products_category}', [ShopProductCategoryController::class, "index"])->name("shop.products-categories");
 
 Route::get('/shop/product/{product}', [ShopProductController::class, "index"])->name("shop.product");
+
+Route::post('/cart', [CartController::class, "store"])->name("cart.store");
 
 Route::get("/login", [AuthController::class, "index"])->name("auth.login.index");
 Route::post("/login", [AuthController::class, "login"])->name("auth.login.login");

@@ -17,19 +17,23 @@ class Product extends Model
         'pivot',
     ];
 
-    public function images() {
+    public function images()
+    {
         return $this->hasMany(ProductImage::class, "product_id", "id");
     }
 
-    public function variations() {
+    public function variations()
+    {
         return $this->hasMany(ProductVariation::class, "product_id", "id");
     }
 
-    public function categories() {
+    public function categories()
+    {
         return $this->belongsToMany(ProductCategory::class, "productscategories_products", "product_id", "productcategory_id", "id", "id")->withPivot("is_active");
     }
 
-    public function categoriesPivot() {
+    public function categoriesPivot()
+    {
         return $this->hasMany(ProductCategory_Product::class, "product_id", "id");
     }
 
@@ -38,7 +42,8 @@ class Product extends Model
         return $this->belongsTo(Brand::class, "brand_id", "id"); // ownerKey => id of userroles are the owners
     }
 
-    public function addedBy() {
+    public function addedBy()
+    {
         return $this->belongsTo(User::class, "added_by", "id");
     }
 }

@@ -45,7 +45,7 @@ function fetchPage(link) {
         .catch((error) => {
             console.log(error);
             if (error.response.status === 401) {
-                window.location = "login";
+                window.location = "/login";
             }
             else if (error.response.status === 403) {
                 alert("Vous n avez pas la permission de faire ça");

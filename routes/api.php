@@ -52,7 +52,7 @@ Route::post("users/filter", [UserController::class, 'filter'])->name("users.filt
 Route::post("products-categories/search", [DashboardProductCategoryController::class, 'search'])->name("products-categories.search")->middleware('JWTAuth');
 Route::post("products-categories/filter", [DashboardProductCategoryController::class, 'filter'])->name("products-categories.filter")->middleware('JWTAuth');
 
-Route::get("shop/products-categories", [ShopProductCategoryController::class, 'index'])->name("products-categories.pagination")->middleware('JWTAuth');
+Route::get("shop/products-categories", [ShopProductCategoryController::class, 'index'])->name("products-categories.pagination");
 
 
 Route::post("products/search", [ProductController::class, 'search'])->name("products.search")->middleware('JWTAuth');
@@ -66,7 +66,7 @@ Route::post("brands/filter", [BrandController::class, 'filter'])->name("brands.f
 Route::get("products-attributes/{attribute_name}/options", [ProductAttributeController::class, 'getAttributeOptions'])->name("products-attributes.getAttributeOptions")->middleware('JWTAuth');
 
 
-Route::get("product/{product_id}/variations", [ShopProductController::class, 'getProductVariations'])->name("product.variations")->middleware('JWTAuth');
+Route::get("product/{product_id}/variations", [ShopProductController::class, 'getProductVariations'])->name("product.variations");
 
 
 Route::delete("products-attributes-options/{products_attribute_option}", [ProductAttributeOptionController::class, 'destroy'])

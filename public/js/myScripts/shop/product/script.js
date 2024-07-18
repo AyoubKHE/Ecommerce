@@ -128,11 +128,27 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
                             document.getElementById("quantity-of-variation").min = 1;
                             document.getElementById("quantity-of-variation").max = productVariation.quantity_in_stock;
 
+                            document.getElementById("variation-id").value = productVariation.id;
 
 
                         })
                         .catch((error) => {
+                            console.log(error);
 
+                            document.getElementById("spinner-container").innerHTML = "";
+
+                            if (error.response.status === 401) {
+
+                                window.location = "login";
+                            }
+                            else if (error.response.status === 403) {
+
+                                alert("Vous n avez pas la permission de faire ça");
+                            }
+                            else {
+
+                                alert("Y a un problème dans le systeme contacter l'admin");
+                            }
                         })
 
                 }
@@ -151,6 +167,8 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 
                 if (selectedOptions.length == attributesCount) {
                     manageUI();
+                } else {
+                    document.getElementById("variation-id").value = "";
                 }
 
             })
@@ -184,6 +202,8 @@ resetFilterButton.addEventListener("click", function () {
 
     document.getElementById("variation-more-details").innerHTML = "";
 
+    document.getElementById("variation-id").value = "";
+
     let allAttributesRadioButtonsContainers = document.querySelectorAll('div[id*="container-attribute-"]');
 
     allAttributesRadioButtonsContainers.forEach(function (attributesRadioButtonContainer) {
@@ -193,6 +213,23 @@ resetFilterButton.addEventListener("click", function () {
         attributesRadioButtonContainer.children[0].checked = false;
     })
 })
+
+
+
+let cartForm = document.getElementById('cart-form');
+
+cartForm.addEventListener('submit', function (event) {
+
+    event.preventDefault();
+
+    let variation_id = document.getElementById("variation-id").value;
+
+    if (variation_id != "") {
+        cartForm.submit();
+    } else {
+        alert('Veuillez renseignez toutes les options');
+    }
+});
 
 
 
