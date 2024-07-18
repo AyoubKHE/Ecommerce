@@ -56,26 +56,16 @@ Route::get("/test", function () {
 
     // dd("{$product_id} hello");
 
-    $sub_query = DB::table('productsvariations_attributesoptions as pv_ao')
-        ->join("productsattributesoptions as pao", "pv_ao.productAttributeOption_id", "pao.id")
-        ->select('pv_ao.productVariation_id', DB::raw('GROUP_CONCAT(" ", pao.value SEPARATOR " , ") AS variation_options'))
-        ->whereIn('pv_ao.productVariation_id', function ($query) use ($product_id) {
-            $query->select('pv.id')
-                ->from('productsvariations as pv')
-                ->where('pv.product_id', $product_id);
-        })
-        ->groupBy('pv_ao.productVariation_id');
-
-    // dd($sub_query->toSql());
-
-    // Construire la requête principale avec les filtres
-
-    $a = "% s %";
+    $sub_query = DB::table('productsVariations_attributesOptions as pv_ao')
+        ->join("productsVariations as pv", "pv_ao.productVariation_id", "pv.id")
+        ->join("productsAttributes as pa", "pv_ao.productAttribute_id", "pa.id")
+        ->join("productsAttributesOptions as pao", "pv_ao.productAttributeOption_id", "pao.id")
+        ->select('pv.*', DB::raw('GROUP_CONCAT(pa.name,"=", pao.value SEPARATOR ", ") AS variation_options'))
+        ->where('pv.product_id', $product_id)
+        ->groupBy('pv.id');
 
     $main_query = DB::table(DB::raw("({$sub_query->toSql()}) as variations"))
-        ->select('variations.productVariation_id', 'variations.variation_options')
-        ->mergeBindings($sub_query)
-        ->whereRaw("variations.variation_options LIKE ?", $a)->get();
+        ->mergeBindings($sub_query)->get();
 
     dd($main_query);
 

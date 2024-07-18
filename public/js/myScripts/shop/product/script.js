@@ -3,9 +3,11 @@ let productId = document.getElementById("product_id").value;
 
 let enabledRadioButtons = {};
 
-let selectedOptions = {};
+// let selectedOptions = {};
 
 let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribute"]');
+
+// document.querySelectorAll('input[name*="attribute"]:checked')
 
 allAttributesRadioButtons.forEach(function (attributeRadioButton) {
     attributeRadioButton.addEventListener("change", function () {
@@ -15,7 +17,7 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 
         let enabledRadioButtons = {};
 
-        selectedOptions[attributeName] = attributeOption;
+        // selectedOptions[attributeName] = attributeOption;
 
         let lastSelected = {};
         lastSelected[attributeName] = attributeOption
@@ -89,6 +91,14 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
                 prepareEnabledRadioButtonsObject();
 
                 modifiyAttributesRadioButtons();
+
+                let attributesCount = document.querySelectorAll('small[id*="attribute-label-"]').length;
+
+                let selectedOptionsCount = document.querySelectorAll('input[name*="attribute"]:checked').length;
+
+                if(selectedOptionsCount == attributesCount) {
+                    
+                }
 
             })
             .catch((error) => {

@@ -122,7 +122,7 @@
                         @foreach ($data['productData']['attributes'] as $product_attribute => $product_attribute_options)
                             <div class="py-4 widget-filter border-top">
 
-                                <small class="text-uppercase d-block fw-bolder mb-2">
+                                <small class="text-uppercase d-block fw-bolder mb-2" id="attribute-label-{{ str_replace(' ', '-', $product_attribute) }}">
                                     {{ $product_attribute }} :
                                 </small>
 
