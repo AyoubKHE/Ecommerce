@@ -3,6 +3,8 @@
 @section('content')
     <input type="hidden" id="product_id" value="{{ $data['productData']['id'] }}">
 
+    <x-messages.flashbag />
+
     <section class="mt-5 ">
         <!-- Page Content Goes Here -->
 
@@ -158,6 +160,7 @@
 
                         </div>
                         <!-- Add To Cart-->
+
                         <form action="{{ route('cart.store') }}" method="POST" enctype="multipart/form-data"
                             id="cart-form">
 

@@ -2,23 +2,31 @@
 
 
 
+use Carbon\Carbon;
+
+use App\Models\Cart;
+
 use App\Models\Product;
 
 use App\Models\ProductCategory;
-
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Facades\Crypt;
+
+
+
+
 use Illuminate\Support\Facades\Route;
+
 use Illuminate\Support\Facades\Cache;;
-
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\Auth\AuthController;
-
-
-
-
 use App\Http\Controllers\Web\Users\UserController;
 use App\Http\Controllers\Web\Brands\BrandController;
 use App\Services\SubCategories\SubCategoriesService;
+use Illuminate\Contracts\Encryption\DecryptException;
+use App\Http\Controllers\Web\Shop\Cart\CartController;
 use App\Http\Controllers\Web\Products\ProductController;
 use App\Http\Controllers\Web\Dashboard\DashboardController;
 use App\Services\SubCategories\Products\SubCategoriesActiveProducts;
@@ -27,12 +35,11 @@ use App\Http\Controllers\Web\ProductsAttributes\ProductAttributeController;
 use App\Services\SubCategories\ProductsPrice\SubCategoriesActiveProductsPrice;
 use App\Services\SubCategories\Attributes\SubCategoriesActiveProductsAttributes;
 use App\Services\SubCategories\ProductsPrice\SubCategoriesActiveProductsMinMaxPrice;
+use App\Http\Controllers\Web\Shop\Product\ProductController as ShopProductController;
 use App\Http\Controllers\Web\Shop\Showcase\ShowcaseController as ShopShowcaseController;
 use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseController;
 use App\Http\Controllers\Web\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
-use App\Http\Controllers\Web\Shop\Product\ProductController as ShopProductController;
 use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as DashboardProductCategoryController;
-use App\Http\Controllers\Web\Shop\Cart\CartController;
 
 // use App\Http\Controllers\AuthController;
 
@@ -48,27 +55,11 @@ use App\Http\Controllers\Web\Shop\Cart\CartController;
 */
 
 
+
+
+
+
 Route::get("/test", function () {
-
-
-    $product_id = 2;
-
-    // WHERE variations.variation_options LIKE '% 6%' AND variations.variation_options LIKE '% 13%'
-
-    // dd("{$product_id} hello");
-
-    $sub_query = DB::table('productsVariations_attributesOptions as pv_ao')
-        ->join("productsVariations as pv", "pv_ao.productVariation_id", "pv.id")
-        ->join("productsAttributes as pa", "pv_ao.productAttribute_id", "pa.id")
-        ->join("productsAttributesOptions as pao", "pv_ao.productAttributeOption_id", "pao.id")
-        ->select('pv.*', DB::raw('GROUP_CONCAT(pa.name,"=", pao.value SEPARATOR ", ") AS variation_options'))
-        ->where('pv.product_id', $product_id)
-        ->groupBy('pv.id');
-
-    $main_query = DB::table(DB::raw("({$sub_query->toSql()}) as variations"))
-        ->mergeBindings($sub_query)->get();
-
-    dd($main_query);
 
 
     // User::create([
