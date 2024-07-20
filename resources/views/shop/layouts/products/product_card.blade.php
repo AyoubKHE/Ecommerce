@@ -44,7 +44,7 @@
             <span class="small fw-bolder ms-2 text-muted"> 4.7 (456)</span>
         </div>
 
-        <a class="mb-0 mx-2 mx-md-4 fs-p link-cover text-decoration-none d-block text-center" href="#">
+        <a class="mb-0 mx-2 mx-md-4 fs-p link-cover text-decoration-none d-block text-center" href="{{ route('shop.product', $productId) }}">
             {{ $productName }}
         </a>
 

@@ -58,7 +58,11 @@
 <body class="">
 
     <!-- Navbar -->
-    @include('shop.layouts.partials.nav.nav')
+    @include('shop.layouts.partials.nav.nav', [
+        'navCategories' => $navCategories,
+        'cartItemsCount' => $cartData == null ? 0 : $cartData['items_count'],
+        'showCartCanva' => $showCartCanva,
+    ])
     <!-- / Navbar-->
 
 
@@ -73,7 +77,9 @@
 
 
     <!-- Offcanvas Imports-->
-    @include('shop.layouts.partials.off_canvas_imports')
+    @include('shop.layouts.partials.off_canvas_imports', [
+        'cartData' => $cartData,
+    ])
     <!-- Search Overlay-->
     @include('shop.layouts.partials.search_overlay')
     <!-- Theme JS -->
@@ -86,6 +92,9 @@
     <script src="{{ asset('./shop_assets/assets/js/theme.bundle.js') }}"></script>
 
     @yield('js')
+
+    <script src="{{ asset('js/myScripts/shop/product/deleteCartItem.js') }}"></script>
+    
 </body>
 
 </html>

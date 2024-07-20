@@ -4,13 +4,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\Brands\BrandController;
 use App\Http\Controllers\Api\Products\ProductController;
-use App\Http\Controllers\Api\Shop\ProductsCategories\ProductCategoryController AS ShopProductCategoryController;
-use App\Http\Controllers\API\Shop\Product\ProductController AS ShopProductController;
-use App\Http\Controllers\Api\ProductsCategories\ProductCategoryController AS DashboardProductCategoryController;
+use App\Http\Controllers\Api\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
+use App\Http\Controllers\API\Shop\Product\ProductController as ShopProductController;
+use App\Http\Controllers\Api\ProductsCategories\ProductCategoryController as DashboardProductCategoryController;
 use App\Http\Controllers\Api\ProductsAttributes\ProductAttributeController;
 use App\Http\Controllers\Api\ProductsAttributesOptions\ProductAttributeOptionController;
 use App\Http\Controllers\Api\ProductsVariations\ProductVariationController;
 use App\Http\Controllers\Api\Users\UserController;
+use App\Http\Controllers\API\Shop\Carts;
+use App\Http\Controllers\API\Shop\Carts\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,8 +45,6 @@ Route::group([
 
 
 
-// Route::get("test", [DashboardProductCategoryController::class, "search"])->name("products-categories.search_test");
-
 Route::post("users/search", [UserController::class, 'search'])->name("users.search")->middleware('JWTAuth');
 Route::post("users/filter", [UserController::class, 'filter'])->name("users.filter")->middleware('JWTAuth');
 
@@ -73,6 +73,11 @@ Route::delete("products-attributes-options/{products_attribute_option}", [Produc
     ->name("products-attributes-options.destroy")
     ->middleware('JWTAuth');
 
+
 Route::delete("products-variations/{products_variation}", [ProductVariationController::class, 'destroy'])
     ->name("products-variations.destroy")
     ->middleware('JWTAuth');
+
+
+Route::delete("cart-item/{cart_id}-{productVariation_id}", [CartController::class, 'destroy'])
+    ->name("cart-item.destroy");

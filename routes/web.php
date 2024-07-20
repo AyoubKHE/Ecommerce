@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Cache;;
+
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Controllers\Web\Auth\AuthController;
@@ -61,6 +62,14 @@ use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as Da
 
 Route::get("/test", function () {
 
+
+    dd(Cart::where("session_id", "UNJuiSyC5kTyGIj2tRgS03oUpfVtQ1C0iQEbG5Wi")
+        ->with("items", function ($query) {
+            $query->with("variation", function ($query) {
+                $query->with("product");
+            });
+        })
+        ->first()->toArray());
 
     // User::create([
     //     "first_name" => "Ayoub",

@@ -3,11 +3,9 @@ let productId = document.getElementById("product_id").value;
 
 let enabledRadioButtons = {};
 
-// let selectedOptions = {};
 
 let allAttributesRadioButtons = document.querySelectorAll('input[name*="attribute"]');
 
-// document.querySelectorAll('input[name*="attribute"]:checked')
 
 allAttributesRadioButtons.forEach(function (attributeRadioButton) {
     attributeRadioButton.addEventListener("change", function () {
@@ -119,7 +117,7 @@ allAttributesRadioButtons.forEach(function (attributeRadioButton) {
 
                             let productPrice = document.getElementById('product-price').innerHTML.trim().split(' ')[0];
 
-                            if (productPrice != productVariation.price) {
+                            if (productPrice != productVariation.price && productVariation.price != null) {
                                 document.getElementById("variation-more-details").innerHTML += `
                                     <h3 style="color: #db1a2a; font-family: cursive;">Prix spécial pour cette variation : ${productVariation.price} DA</h3>
                                 `

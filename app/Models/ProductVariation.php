@@ -29,4 +29,8 @@ class ProductVariation extends Model
         return $this->belongsToMany(ProductAttribute::class, "productsVariations_attributesOptions", "productVariation_id", "productAttribute_id", "id", "id");
     }
 
+    public function product() {
+        return $this->belongsTo(Product::class, "product_id", "id");
+    }
+
 }

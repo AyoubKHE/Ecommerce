@@ -1,4 +1,8 @@
-@extends('shop.layouts.master', ['navCategories' => $data['navCategories']])
+@extends('shop.layouts.master', [
+    'navCategories' => $data['navCategories'],
+    'cartData' => $data["cartData"],
+    'showCartCanva' => true
+])
 
 @section('content')
     <section class="mt-0 ">

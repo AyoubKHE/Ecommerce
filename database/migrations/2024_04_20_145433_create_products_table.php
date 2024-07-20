@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text("description")->nullable(false)->unique();
             $table->boolean("is_active")->nullable(false)->default(true);
             $table->tinyInteger("rating")->nullable(true);
-            $table->decimal('price', 6, 2)->nullable(false);
+            $table->decimal('price', 8, 2)->nullable(false);
             $table->timestamps();
 
             $table->unsignedBigInteger('added_by')->nullable(false);

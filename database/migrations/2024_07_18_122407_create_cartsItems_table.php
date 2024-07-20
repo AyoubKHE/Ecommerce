@@ -19,6 +19,9 @@ return new class extends Migration
             $table->foreign('productVariation_id')->references('id')->on('productsVariations');
 
             $table->integer('quantity')->nullable(false);
+            $table->decimal('price', 8, 2)->nullable(false);
+
+            $table->timestamps();
 
             $table->primary(['cart_id', 'productVariation_id']);
         });

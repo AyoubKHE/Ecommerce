@@ -12,7 +12,7 @@ class Cart extends Model
     protected $table = "carts";
 
     protected $fillable = [
-        "session_id"
+        "session_id", "items_count", "total_price"
     ];
 
     public function items() {

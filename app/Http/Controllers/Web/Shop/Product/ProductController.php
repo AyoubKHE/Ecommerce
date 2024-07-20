@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Web\Shop\Product;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Brand;
 use App\Models\Product;
+use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Models\ProductVariation;
 use Illuminate\Support\Facades\DB;
@@ -18,6 +20,8 @@ class ProductController extends Controller
     private static array $data;
 
     private static Product $product;
+
+    private static Request $request;
 
 
 
@@ -36,6 +40,29 @@ class ProductController extends Controller
         foreach (static::$data["navCategories"] as &$nav_category) {
 
             $nav_category["brands"] = SubCategoriesService::getActiveProductsBrandsListForSpecificCategory($nav_category["id"]);
+        }
+    }
+
+
+    private static function loadCartData()
+    {
+        $laravel_session = static::$request->session()->getId();
+
+        static::$data["cartData"] = Cart::where("session_id", $laravel_session)
+            ->with("items", function ($query) {
+                $query->with("variation", function ($query) {
+                    $query->with("product", function($query) {
+                        $query->with("images");
+                    })
+                    ->with("attributes_options_pivot", function($query) {
+                        $query->with("attribute")->with("option");
+                    });
+                })->orderBy("created_at");
+            })
+            ->first();
+
+        if(static::$data["cartData"] !== null) {
+            static::$data["cartData"]->toArray();
         }
     }
 
@@ -109,12 +136,16 @@ class ProductController extends Controller
     }
 
 
-    public function index(Product $product)
+    public function index(Product $product, Request $request)
     {
 
         static::$product = $product;
 
+        static::$request = $request;
+
         static::prepareNavCategories();
+
+        static::loadCartData();
 
         static::loadProductData();
 

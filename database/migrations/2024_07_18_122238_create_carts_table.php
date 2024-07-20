@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string("session_id");
 
+            $table->integer('items_count')->nullable(false);
+            $table->decimal('total_price', 8, 2)->nullable(false);
+
             $table->timestamps();
         });
     }

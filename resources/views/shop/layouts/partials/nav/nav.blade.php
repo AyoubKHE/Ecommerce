@@ -113,8 +113,7 @@
 <!-- / Navbar--> --}}
 
 <!-- Navbar -->
-<nav
-    class="navbar navbar-expand-lg navbar-light bg-white border-bottom mx-0 p-0 flex-column  ">
+<nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom mx-0 p-0 flex-column  ">
     <div class="w-100 pb-lg-0 pt-lg-0 pt-4 pb-3">
 
         <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
@@ -184,11 +183,11 @@
                 <!-- /Navbar Search-->
 
                 <!-- Navbar Wishlist-->
-                <li class="ms-1 d-none d-lg-inline-block">
+                {{-- <li class="ms-1 d-none d-lg-inline-block">
                     <a class="btn btn-link px-2 py-0 text-decoration-none d-flex align-items-center" href="#">
                         <i class="ri-heart-line ri-lg align-middle"></i>
                     </a>
-                </li>
+                </li> --}}
                 <!-- /Navbar Wishlist-->
 
                 <!-- Navbar Login-->
@@ -199,17 +198,19 @@
                 </li>
                 <!-- /Navbar Login-->
 
-                <!-- Navbar Cart-->
-                <li class="ms-1 d-inline-block position-relative">
-                    <button
-                        class="btn btn-link px-2 text-decoration-none d-flex align-items-center disable-child-pointer"
-                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
-                        <i class="ri-shopping-cart-2-line ri-lg align-middle position-relative z-index-10"></i>
-                        <span
-                            class="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white">2</span>
-                    </button>
-                </li>
-                <!-- /Navbar Cart-->
+                @if ($showCartCanva)
+                    <!-- Navbar Cart-->
+                    <li class="ms-1 d-inline-block position-relative">
+                        <button
+                            class="btn btn-link px-2 text-decoration-none d-flex align-items-center disable-child-pointer"
+                            data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                            <i class="ri-shopping-cart-2-line ri-lg align-middle position-relative z-index-10"></i>
+                            <span
+                                class="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white" id="cart-items-count">{{ $cartItemsCount }}</span>
+                        </button>
+                    </li>
+                    <!-- /Navbar Cart-->
+                @endif
 
             </ul>
             <!-- Navbar Icons-->

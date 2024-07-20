@@ -2,7 +2,11 @@
     dd($data['navCategories']);
 @endphp --}}
 
-@extends('shop.layouts.master', ['navCategories' => $data['navCategories']])
+@extends('shop.layouts.master', [
+    'navCategories' => $data['navCategories'],
+    'cartData' => $data['cartData'],
+    'showCartCanva' => true,
+])
 
 @section('content')
     <section class="mt-0 ">
@@ -203,6 +207,7 @@
 
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -215,6 +220,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -227,6 +233,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -239,6 +246,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -251,6 +259,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -264,6 +273,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -276,6 +286,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -288,6 +299,7 @@
                         <div class="swiper-slide d-flex h-auto">
                             <!-- Card Product-->
                             @include('shop.layouts.products.product_card', [
+                                'productId' => 2,
                                 'productName' => 'Full Zip Hoodie',
                                 'productPrice' => 1129.99,
                                 'productRating' => 90,
@@ -473,6 +485,7 @@
                                             <!-- Card-->
                                             <!-- Card Product-->
                                             @include('shop.layouts.products.product_card', [
+                                                'productId' => 2,
                                                 'productName' => 'Full Zip Hoodie',
                                                 'productPrice' => 1129.99,
                                                 'productRating' => 90,
@@ -488,6 +501,7 @@
                                             <!-- Card-->
                                             <!-- Card Product-->
                                             @include('shop.layouts.products.product_card', [
+                                                'productId' => 2,
                                                 'productName' => 'Full Zip Hoodie',
                                                 'productPrice' => 1129.99,
                                                 'productRating' => 90,
@@ -503,6 +517,7 @@
                                             <!-- Card-->
                                             <!-- Card Product-->
                                             @include('shop.layouts.products.product_card', [
+                                                'productId' => 2,
                                                 'productName' => 'Full Zip Hoodie',
                                                 'productPrice' => 1129.99,
                                                 'productRating' => 90,
@@ -549,6 +564,7 @@
                                             <div class="col-12 col-md-6">
                                                 <!-- Card Product-->
                                                 @include('shop.layouts.products.product_card', [
+                                                    'productId' => 2,
                                                     'productName' => 'Full Zip Hoodie',
                                                     'productPrice' => 1129.99,
                                                     'productRating' => 90,
@@ -560,6 +576,7 @@
                                             <div class="col-12 col-md-6">
                                                 <!-- Card Product-->
                                                 @include('shop.layouts.products.product_card', [
+                                                    'productId' => 2,
                                                     'productName' => 'Full Zip Hoodie',
                                                     'productPrice' => 1129.99,
                                                     'productRating' => 90,
@@ -571,6 +588,7 @@
                                             <div class="col-12 col-md-6">
                                                 <!-- Card Product-->
                                                 @include('shop.layouts.products.product_card', [
+                                                    'productId' => 2,
                                                     'productName' => 'Full Zip Hoodie',
                                                     'productPrice' => 1129.99,
                                                     'productRating' => 90,
@@ -582,6 +600,7 @@
                                             <div class="col-12 col-md-6">
                                                 <!-- Card Product-->
                                                 @include('shop.layouts.products.product_card', [
+                                                    'productId' => 2,
                                                     'productName' => 'Full Zip Hoodie',
                                                     'productPrice' => 1129.99,
                                                     'productRating' => 90,

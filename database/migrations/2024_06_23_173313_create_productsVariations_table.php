@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->unsignedInteger('id', true)->nullable(false);
 
-            $table->decimal('price', 6, 2)->nullable(true);
+            $table->decimal('price', 8, 2)->nullable(true);
 
             $table->unsignedInteger("quantity_in_stock")->nullable(false);
 

@@ -1,4 +1,5 @@
 <!-- Cart Offcanvas-->
+
 <div class="offcanvas offcanvas-end d-none" tabindex="-1" id="offcanvasCart">
     <div class="offcanvas-header d-flex align-items-center">
         <h5 class="offcanvas-title" id="offcanvasCartLabel">Votre panier</h5>
@@ -6,18 +7,69 @@
     </div>
     <div class="offcanvas-body">
         <div class="d-flex flex-column justify-content-between w-100 h-100">
+
             <div>
 
-                <div class="mt-4 mb-5">
-                    <p class="mb-2 fs-6"><i class="ri-truck-line align-bottom me-2"></i> À <span
-                            class="fw-bolder"> 500 DA </span> de la livraison gratuite</p>
+                {{-- <div class="mt-4 mb-5">
+                    <p class="mb-2 fs-6"><i class="ri-truck-line align-bottom me-2"></i> À <span class="fw-bolder"> 500
+                            DA </span> de la livraison gratuite</p>
                     <div class="progress f-h-1">
                         <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25"
                             aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
-                </div>
+                </div> --}}
 
-                <!-- Cart Product-->
+                @if ($cartData !== null)
+                    @foreach ($cartData['items'] as $cartItem)
+
+                        <div class="row mx-0 pb-4 mb-4 border-bottom"
+                            id="cart-item-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}">
+                            <div class="col-3">
+                                <picture class="d-block bg-light">
+
+                                    @php
+                                        $imagePath = collect($cartItem['variation']['product']['images'])
+                                            ->filter(function ($image) {
+                                                return $image['is_default'] == 1;
+                                            })
+                                            ->first()['image_path'];
+                                    @endphp
+
+                                    <img class="img-fluid" src="{{ asset('storage/' . $imagePath) }}"
+                                        alt="Bootstrap 5 Template by Pixel Rocket">
+                                </picture>
+                            </div>
+                            <div class="col-9">
+                                <div>
+                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                        {{ $cartItem['variation']['product']['name'] }}
+                                        <i class="ri-close-line"
+                                            id="delete-cart-item-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}"></i>
+                                    </h6>
+
+                                    @foreach ($cartItem['variation']['attributes_options_pivot'] as $attribute_option)
+                                        <small
+                                            class="d-block text-muted fw-bolder">{{ $attribute_option['attribute']['name'] }}:
+                                            {{ $attribute_option['option']['value'] }}</small>
+                                    @endforeach
+
+                                    <br>
+                                    <small class="d-block text-muted fw-bolder">Qty:
+                                        {{ $cartItem['quantity'] }}</small>
+                                </div>
+
+                                <p class="fw-bolder text-end m-0">{{ $cartItem['price'] }} DA</p>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <h5 style="text-align: center; font-family: cursive;">Votre panier est vide</h5>
+
+                @endif
+
+
+
+                {{-- <!-- Cart Product-->
                 <div class="row mx-0 pb-4 mb-4 border-bottom">
                     <div class="col-3">
                         <picture class="d-block bg-light">
@@ -57,20 +109,22 @@
                         </div>
                         <p class="fw-bolder text-end m-0">$99.00</p>
                     </div>
-                </div>
+                </div> --}}
 
             </div>
+
             <div class="border-top pt-3">
                 <div class="d-flex justify-content-between align-items-center">
-                    <p class="m-0 fw-bolder">Subtotal</p>
-                    <p class="m-0 fw-bolder">$233.33</p>
+                    <p class="m-0 fw-bolder">Total</p>
+                    <p class="m-0 fw-bolder">{{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
                 </div>
                 <a href="./checkout.html"
                     class="btn btn-orange btn-orange-chunky mt-5 mb-2 d-block text-center">Checkout</a>
-                <a href="./cart.html"
+                {{-- <a href="./cart.html"
                     class="btn btn-dark fw-bolder d-block text-center transition-all opacity-50-hover">View
-                    Cart</a>
+                    Cart</a> --}}
             </div>
+
         </div>
     </div>
 </div>

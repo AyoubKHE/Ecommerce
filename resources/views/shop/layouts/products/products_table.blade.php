@@ -34,6 +34,7 @@
 
             <!-- Card Product-->
             @include('shop.layouts.products.product_card', [
+                'productId' => $product->id,
                 'productName' => $product->name,
                 'productPrice' => $product->price,
                 'productRating' => $product->rating ?? 50,

@@ -22,32 +22,55 @@ class CartController extends Controller
 
                 $session_id = $request->session()->getId();
 
+                $item_quantity = $request->input("item_quantity");
+
+                $product_variation = ProductVariation::where("id", $request->input("variation_id"))->with("product")->first();
+
+                if ($product_variation->price != null) {
+                    $item_price = $product_variation->price * $item_quantity;
+                } else {
+                    $item_price = $product_variation->product->price * $item_quantity;
+                }
+
                 $cart = Cart::where("session_id", $session_id)->first();
 
-                if($cart === null) {
+                if ($cart === null) {
 
                     $cart = Cart::create([
-                        "session_id" => $session_id
+                        "session_id" => $session_id,
+                        "items_count" => 1,
+                        "total_price" => $item_price
                     ]);
 
                     if (!$cart) {
                         throw new \Exception("échec de la création de l'enregistrement dans la table 'carts'");
                     }
-                }
-                else {
+                } else {
+
                     $cart->updated_at = time();
+                    $cart->total_price += $item_price;
+                    $cart->items_count++;
+
                     if (!$cart->save()) {
-                        throw new \Exception("échec de modifier | updated_at | de la cart dans la table 'carts'");
+                        throw new \Exception("échec de modifier la cart " . $cart->id . " dans la table 'carts'");
                     }
                 }
 
                 if (!CartItem::create([
                     "cart_id" => $cart->id,
-                    "productVariation_id" => $request->input("variation_id"),
-                    "quantity" => $request->input("variation_quantity")
+                    "productVariation_id" => $product_variation->id,
+                    "quantity" => $item_quantity,
+                    "price" => $item_price
                 ])) {
                     throw new \Exception("échec de la création de l'enregistrement dans la table 'cartsItems'");
                 }
+
+                $product_variation->quantity_in_stock -= (int)$item_quantity;
+
+                if (!$product_variation->save()) {
+                    throw new \Exception("échec de modifier | quantity_in_stock | de la variation " . $product_variation->id . " dans la table 'carts'");
+                }
+
             });
 
             $message = [
@@ -61,8 +84,8 @@ class CartController extends Controller
             $message = [
                 "type" => "danger",
                 "text" => $error_code == "SQLSTATE[23000]"
-                                ? "l ajout du produit au panier a échoué. la variation est déja été ajouté au panier"
-                                : "l ajout du produit au panier a échoué. Réessayer plus tard",
+                    ? "l ajout du produit au panier a échoué. la variation est déja été ajouté au panier"
+                    : "l ajout du produit au panier a échoué. Réessayer plus tard",
                 "error" => $th->getMessage(),
                 "file" => $th->getFile(),
                 "line" => $th->getLine()
