@@ -19,10 +19,19 @@ allDeleteCartItemButtons.forEach(function (deleteCartItemButton) {
             url: `http://127.0.0.1:8000/api/cart-item/${cart_id}-${productVariation_id}`,
         })
             .then(response => {
+                
                 let cartItemsCountSpan = document.getElementById("cart-items-count");
                 cartItemsCountSpan.innerHTML = Number(cartItemsCountSpan.innerHTML) - 1;
 
+                let itemPrice = Number(document.getElementById(`item-price-${cart_id}-${productVariation_id}`).innerHTML.trim().split(" ")[0]);
+
+                let cartTotalPrice = document.getElementById(`cart-total-price`);
+
+                cartTotalPrice.innerHTML = (Number(cartTotalPrice.innerHTML.trim().split(" ")[0]) - itemPrice) + " DA";
+
                 document.getElementById(`cart-item-${cart_id}-${productVariation_id}`).remove();
+
+
             })
             .catch((error) => {
                 console.log(error);

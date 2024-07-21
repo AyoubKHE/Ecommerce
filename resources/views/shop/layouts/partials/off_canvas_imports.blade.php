@@ -58,7 +58,7 @@
                                         {{ $cartItem['quantity'] }}</small>
                                 </div>
 
-                                <p class="fw-bolder text-end m-0">{{ $cartItem['price'] }} DA</p>
+                                <p class="fw-bolder text-end m-0" id="item-price-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}">{{ $cartItem['price'] }} DA</p>
                             </div>
                         </div>
                     @endforeach
@@ -116,7 +116,7 @@
             <div class="border-top pt-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="m-0 fw-bolder">Total</p>
-                    <p class="m-0 fw-bolder">{{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
+                    <p class="m-0 fw-bolder" id="cart-total-price">{{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
                 </div>
                 <a href="./checkout.html"
                     class="btn btn-orange btn-orange-chunky mt-5 mb-2 d-block text-center">Checkout</a>
