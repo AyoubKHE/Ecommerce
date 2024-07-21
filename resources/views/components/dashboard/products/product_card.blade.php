@@ -136,8 +136,8 @@
                             <td class="product_variation_data">{{ $product_variation["quantity_in_stock"] }}</td>
 
                             <td class="product_variation_data"
-                                style="background-color: {{ $product_variation["is_active"] === 1 ? 'green' : 'red' }}; color: white; text-align: center">
-                                {{ $related_category->is_active === 1 ? 'Oui' : 'Non' }}
+                                style="background-color: {{ $product_variation["is_active"] == 1 ? 'green' : 'red' }}; color: white; text-align: center">
+                                {{ $product_variation["is_active"] === 1 ? 'Oui' : 'Non' }}
                             </td>
 
                         </tr>

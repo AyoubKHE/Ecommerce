@@ -26,7 +26,7 @@
 
             <div class="col-12">
 
-                <form class="form" method="POST" action="{{ route('dashboard.auth.login.login') }}">
+                <form class="form" method="POST" action="{{ route('shop.auth.login.login') }}">
 
                     @csrf
 
@@ -36,12 +36,11 @@
 
                     <div class="inputForm">
                         <i class="fa fa-user" aria-hidden="true"></i>
-                        <!-- <i class="fa fa-envelope-o" aria-hidden="true" id="envelope"></i> -->
-                        <input type="text" class="input" name="username" id="input-username" placeholder="Username"
+                        <input type="email" class="input" name="email" id="input-email" placeholder="Email"
                             value="{{ old('username') }}">
 
                     </div>
-                    @error('username')
+                    @error('email')
                         <div class="text-danger">
                             {{ $message }}
                         </div>

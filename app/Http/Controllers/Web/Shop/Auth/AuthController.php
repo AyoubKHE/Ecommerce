@@ -1,24 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Web\Auth;
+namespace App\Http\Controllers\Web\Shop\Auth;
 
 use App\Models\User;
-use App\Models\Person;
-use App\Services\JWTService;
-// use Illuminate\Contracts\Session\Session;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Illuminate\Routing\Controller;
-use Illuminate\Support\Facades\DB;
-use Tymon\JWTAuth\Facades\JWTAuth;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
-use Symfony\Component\HttpFoundation\Cookie;
+
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Support\Facades\Date;
+
 
 class AuthController extends Controller
 {
@@ -26,7 +18,7 @@ class AuthController extends Controller
 
     public function index()
     {
-        return view("auth.login");
+        return view("shop.auth.login");
     }
 
     public function login(Request $request): RedirectResponse
@@ -49,6 +41,6 @@ class AuthController extends Controller
 
         $request->session()->regenerateToken();
 
-        return to_route("dashboard.auth.login.index");
+        return to_route("shop.auth.login.index");
     }
 }

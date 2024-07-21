@@ -118,7 +118,8 @@
                     <p class="m-0 fw-bolder">Total</p>
                     <p class="m-0 fw-bolder" id="cart-total-price">{{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
                 </div>
-                <a href="./checkout.html"
+
+                <a href="#"
                     class="btn btn-orange btn-orange-chunky mt-5 mb-2 d-block text-center">Checkout</a>
                 {{-- <a href="./cart.html"
                     class="btn btn-dark fw-bolder d-block text-center transition-all opacity-50-hover">View

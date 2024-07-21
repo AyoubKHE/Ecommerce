@@ -1,41 +1,15 @@
 <?php
 
-
-
-use Carbon\Carbon;
-
 use App\Models\Cart;
-
-use App\Models\Product;
-
-use App\Models\ProductCategory;
-use Illuminate\Support\Facades\DB;
-
-use Illuminate\Support\Facades\Crypt;
-
-
-
-
 use Illuminate\Support\Facades\Route;
-
-use Illuminate\Support\Facades\Cache;;
-
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\Storage;
-use App\Http\Controllers\Web\Auth\AuthController;
+use App\Http\Controllers\Web\Auth\AuthController as DashboardAuthController;
+use App\Http\Controllers\Web\Shop\Auth\AuthController as ShopAuthController;
 use App\Http\Controllers\Web\Users\UserController;
 use App\Http\Controllers\Web\Brands\BrandController;
-use App\Services\SubCategories\SubCategoriesService;
-use Illuminate\Contracts\Encryption\DecryptException;
 use App\Http\Controllers\Web\Shop\Cart\CartController;
 use App\Http\Controllers\Web\Products\ProductController;
 use App\Http\Controllers\Web\Dashboard\DashboardController;
-use App\Services\SubCategories\Products\SubCategoriesActiveProducts;
-use App\Services\SubCategories\Brands\SubCategoriesActiveProductsBrands;
 use App\Http\Controllers\Web\ProductsAttributes\ProductAttributeController;
-use App\Services\SubCategories\ProductsPrice\SubCategoriesActiveProductsPrice;
-use App\Services\SubCategories\Attributes\SubCategoriesActiveProductsAttributes;
-use App\Services\SubCategories\ProductsPrice\SubCategoriesActiveProductsMinMaxPrice;
 use App\Http\Controllers\Web\Shop\Product\ProductController as ShopProductController;
 use App\Http\Controllers\Web\Shop\Showcase\ShowcaseController as ShopShowcaseController;
 use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseController;
@@ -63,13 +37,7 @@ use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as Da
 Route::get("/test", function () {
 
 
-    dd(Cart::where("session_id", "UNJuiSyC5kTyGIj2tRgS03oUpfVtQ1C0iQEbG5Wi")
-        ->with("items", function ($query) {
-            $query->with("variation", function ($query) {
-                $query->with("product");
-            });
-        })
-        ->first()->toArray());
+    dd(auth()->check());
 
     // User::create([
     //     "first_name" => "Ayoub",
@@ -95,9 +63,13 @@ Route::get('/shop/product/{product}', [ShopProductController::class, "index"])->
 
 Route::post('/cart', [CartController::class, "store"])->name("cart.store");
 
-Route::get("/login", [AuthController::class, "index"])->name("auth.login.index");
-Route::post("/login", [AuthController::class, "login"])->name("auth.login.login");
-Route::get("/logout", [AuthController::class, "logout"])->name("auth.logout");
+Route::get("/login", [DashboardAuthController::class, "index"])->name("dashboard.auth.login.index");
+Route::post("/login", [DashboardAuthController::class, "login"])->name("dashboard.auth.login.login");
+Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboard.auth.logout");
+
+Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
+Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
+Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard.index");

@@ -1,6 +1,3 @@
-{{-- @php
-    dd($username);
-@endphp --}}
 <x-dashboard.master :username="$username">
 
     <div style="margin: auto;">
