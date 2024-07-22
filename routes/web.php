@@ -33,10 +33,6 @@ use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as Da
 */
 
 
-
-
-
-
 Route::get("/test", function (Request $request) {
 
     // Auth::logout();
