@@ -40,7 +40,7 @@ class storeCart
 
     private static function prepareData()
     {
-        static::$session_id = static::$request->session()->getId();
+        static::$session_id = static::$request->cookie()["laravel_session"];
 
         static::$item_quantity = static::$request->input("item_quantity");
 

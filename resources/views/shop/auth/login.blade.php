@@ -9,8 +9,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="{{ asset("css/auth_styles/login_style.css") }}">
-    <link rel="stylesheet" href="{{ asset("css/auth_styles/form_style.css") }}">
+    <link rel="stylesheet" href="{{ asset('css/auth_styles/login_style.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/auth_styles/form_style.css') }}">
 
     <link rel="stylesheet" type="text/css"
         href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -74,7 +74,12 @@
 
                     <button class="button-submit" id="btn-login">Se Connecter</button>
 
-                    <a class="btn btn-success" style="background-color: #7f857a; margin-top: 0" href="{{ route("shop.auth.register.form") }}">S'inscrire</a>
+                    <div class="d-flex justify-content-between">
+                        <a class="btn btn-success" style="background-color: #7f857a; margin-top: 0"
+                            href="{{ route('shop.auth.register.form') }}">S'inscrire</a>
+
+                    </div>
+
 
                 </form>
 

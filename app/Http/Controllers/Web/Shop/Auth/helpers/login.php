@@ -95,7 +95,7 @@ class login
                         "text" => "Veuillez remplir votre panier à nouveau svp !"
                     ];
 
-                    return back();
+                    return to_route("shop.showcase")->with("message", $message);
                 }
 
             }

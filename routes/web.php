@@ -45,13 +45,7 @@ Route::get("/test", function (Request $request) {
 
     // $request->session()->regenerateToken();
 
-    // dump($request->session()->getId());
-
-    // $request->session()->setId($old_session_id);
-
-    // $request->session()->save();
-
-    // dump(session());
+    dd(auth()->user());
 
 
 
@@ -71,27 +65,26 @@ Route::get("/test", function (Request $request) {
 
 });
 
-
+//! SHOP ROUTES ----------------------------------------------------------------------------------------------------------------------------
 Route::get('/', [ShopShowcaseController::class, "index"])->name("shop.showcase");
-
 Route::get('/shop/products-categories/{products_category}', [ShopProductCategoryController::class, "index"])->name("shop.products-categories");
-
 Route::get('/shop/product/{product}', [ShopProductController::class, "index"])->name("shop.product");
-
 Route::post('/cart', [CartController::class, "store"])->name("cart.store");
+Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
+Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
+Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
+Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form");
+Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register");
+Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
+
+
+//!-----------------------------------------------------------------------------------------------------------------------------------------
+
+//! DASHBOARD ROUTES -----------------------------------------------------------------------------------------------------------------------
 
 Route::get("/login", [DashboardAuthController::class, "index"])->name("dashboard.auth.login.index");
 Route::post("/login", [DashboardAuthController::class, "login"])->name("dashboard.auth.login.login");
 Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboard.auth.logout");
-
-Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
-Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
-Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
-
-Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form");
-Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register");
-
-Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard.index");
@@ -101,11 +94,12 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource("brands", BrandController::class);
 
     Route::get("/showcase/header/edit", [DashboardShowcaseController::class, "headerEdit"])->name("showcase.header.edit");
-    Route::PUT("/showcase/header", [DashboardShowcaseController::class, "headerUpdate"])->name("showcase.header.update");
+    Route::put("/showcase/header", [DashboardShowcaseController::class, "headerUpdate"])->name("showcase.header.update");
 
     Route::get("/showcase/body/edit", [DashboardShowcaseController::class, "bodyEdit"])->name("showcase.body.edit");
-    Route::PUT("/showcase/body", [DashboardShowcaseController::class, "bodyUpdate"])->name("showcase.body.update");
+    Route::put("/showcase/body", [DashboardShowcaseController::class, "bodyUpdate"])->name("showcase.body.update");
 });
 
 Route::resource("users", UserController::class);
 Route::put("/currentUser/{user}", [UserController::class, "updateCurrentUser"])->name("users.updateCurrentUser");
+//!-----------------------------------------------------------------------------------------------------------------------------------------
