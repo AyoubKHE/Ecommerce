@@ -63,14 +63,20 @@ Route::get("/test", function (Request $request) {
 
 //! SHOP ROUTES ----------------------------------------------------------------------------------------------------------------------------
 Route::get('/', [ShopShowcaseController::class, "index"])->name("shop.showcase");
+
 Route::get('/shop/products-categories/{products_category}', [ShopProductCategoryController::class, "index"])->name("shop.products-categories");
+
 Route::get('/shop/product/{product}', [ShopProductController::class, "index"])->name("shop.product");
+
 Route::post('/cart', [CartController::class, "store"])->name("cart.store");
+
 Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
 Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
 Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
+
 Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form");
 Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register");
+
 Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
 
 
