@@ -1,7 +1,3 @@
-{{-- @php
-    dd($data['navCategories']);
-@endphp --}}
-
 @extends('shop.layouts.master', [
     'navCategories' => $data['navCategories'],
     'cartData' => $data['cartData'],
@@ -23,7 +19,7 @@
                         <div data-aos="fade-in" data-aos-delay="2000">
                             <div class="d-md-flex justify-content-center mt-4 mb-3 my-md-5">
 
-                                @foreach ($data['navCategories'] as $navCategory)
+                                {{-- @foreach ($data['navCategories'] as $navCategory)
                                     <a href="#"
                                         class="btn btn-skew-left btn-orange btn-orange-chunky text-white mx-1 w-100 w-md-auto mb-2 mb-md-0">
                                         <span>
@@ -31,7 +27,23 @@
                                             <i class="ri-arrow-right-line align-middle fw-bold"></i>
                                         </span>
                                     </a>
-                                @endforeach
+                                @endforeach --}}
+
+                                <a href="{{ route("shop.auth.register.form") }}"
+                                    class="btn btn-skew-left btn-orange btn-orange-chunky text-white mx-1 w-100 w-md-auto mb-2 mb-md-0">
+                                    <span>
+                                        S'inscrire
+                                        <i class="ri-arrow-right-line align-middle fw-bold"></i>
+                                    </span>
+                                </a>
+
+                                <a href="{{ route("shop.auth.login.index") }}"
+                                class="btn btn-skew-left btn-orange btn-orange-chunky text-white mx-1 w-100 w-md-auto mb-2 mb-md-0">
+                                <span>
+                                    Se Connecter
+                                    <i class="ri-arrow-right-line align-middle fw-bold"></i>
+                                </span>
+                            </a>
 
                             </div>
                             <i class="ri-mouse-line d-block text-center animation-float ri-2x transition-all opacity-50-hover text-white"

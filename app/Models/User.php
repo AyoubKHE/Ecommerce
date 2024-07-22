@@ -16,7 +16,8 @@ class User extends Authenticatable
 
     protected $fillable = [
         "first_name", "last_name", "username", "email", "password", "phone",
-        "birth_date", "image_path", "is_active", "role", "added_by", "last_login", "email_verified_at",
+        "birth_date", "image_path", "is_active", "role", "added_by", "last_login",
+        "email_verified_at", "email_verification_token"
     ];
 
     public function products()

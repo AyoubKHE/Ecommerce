@@ -16,20 +16,20 @@ return new class extends Migration
 
             $table->string("first_name", 30)->nullable(false);
             $table->string("last_name", 30)->nullable(false);
-            $table->string("username", 50)->unique()->nullable(false);
+            $table->string("username", 50)->unique()->nullable(true);
             $table->string("email", 255)->unique()->nullable(false);
             $table->string("password", 255)->nullable(false);
             $table->string("phone", 20)->unique()->nullable(true);
-            $table->date("birth_date")->nullable(false);
+            $table->date("birth_date")->nullable(true);
             $table->string("image_path", 255)->nullable(true);
             $table->boolean("is_active")->nullable(false)->default(true);
             $table->dateTime('last_login')->nullable(true);
-            $table->enum('role', ["admin", "user", "customer"])->nullable(false);
+            $table->enum('role', ["admin", "user", "client"])->nullable(false);
 
             $table->unsignedBigInteger('added_by')->nullable(true);
             $table->foreign('added_by')->references('id')->on('users');
 
-            $table->timestamp('email_verified_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable(true);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes()->nullable(true);

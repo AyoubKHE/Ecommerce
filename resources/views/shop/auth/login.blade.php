@@ -22,6 +22,8 @@
 
     <section class="container my-container">
 
+        <x-messages.flashbag />
+
         <div class="row align-items-center" style="height: 80vh;">
 
             <div class="col-12">
@@ -71,6 +73,8 @@
                     </div> --}}
 
                     <button class="button-submit" id="btn-login">Se Connecter</button>
+
+                    <a class="btn btn-success" style="background-color: #7f857a; margin-top: 0" href="{{ route("shop.auth.register.form") }}">S'inscrire</a>
 
                 </form>
 

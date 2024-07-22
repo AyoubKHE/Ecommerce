@@ -1,15 +1,18 @@
 <?php
 
 use App\Models\Cart;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Web\Auth\AuthController as DashboardAuthController;
-use App\Http\Controllers\Web\Shop\Auth\AuthController as ShopAuthController;
 use App\Http\Controllers\Web\Users\UserController;
 use App\Http\Controllers\Web\Brands\BrandController;
 use App\Http\Controllers\Web\Shop\Cart\CartController;
 use App\Http\Controllers\Web\Products\ProductController;
 use App\Http\Controllers\Web\Dashboard\DashboardController;
 use App\Http\Controllers\Web\ProductsAttributes\ProductAttributeController;
+use App\Http\Controllers\Web\Auth\AuthController as DashboardAuthController;
+use App\Http\Controllers\Web\Shop\Auth\AuthController as ShopAuthController;
 use App\Http\Controllers\Web\Shop\Product\ProductController as ShopProductController;
 use App\Http\Controllers\Web\Shop\Showcase\ShowcaseController as ShopShowcaseController;
 use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseController;
@@ -34,10 +37,24 @@ use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as Da
 
 
 
-Route::get("/test", function () {
+Route::get("/test", function (Request $request) {
+
+    // Auth::logout();
+
+    // $request->session()->invalidate();
+
+    // $request->session()->regenerateToken();
+
+    // dump($request->session()->getId());
+
+    // $request->session()->setId($old_session_id);
+
+    // $request->session()->save();
+
+    // dump(session());
 
 
-    dd(auth()->check());
+
 
     // User::create([
     //     "first_name" => "Ayoub",
@@ -70,6 +87,11 @@ Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboa
 Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
 Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
 Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
+
+Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form");
+Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register");
+
+Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard.index");
