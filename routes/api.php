@@ -2,17 +2,18 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\Brands\BrandController;
-use App\Http\Controllers\Api\Products\ProductController;
-use App\Http\Controllers\Api\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
-use App\Http\Controllers\API\Shop\Product\ProductController as ShopProductController;
-use App\Http\Controllers\Api\ProductsCategories\ProductCategoryController as DashboardProductCategoryController;
-use App\Http\Controllers\Api\ProductsAttributes\ProductAttributeController;
-use App\Http\Controllers\Api\ProductsAttributesOptions\ProductAttributeOptionController;
-use App\Http\Controllers\Api\ProductsVariations\ProductVariationController;
-use App\Http\Controllers\Api\Users\UserController;
 use App\Http\Controllers\API\Shop\Carts;
+use App\Http\Controllers\Api\Users\UserController;
+use App\Http\Controllers\Api\Brands\BrandController;
+use App\Http\Controllers\Api\Wilayas\WilayaController;
 use App\Http\Controllers\API\Shop\Carts\CartController;
+use App\Http\Controllers\Api\Products\ProductController;
+use App\Http\Controllers\Api\ProductsAttributes\ProductAttributeController;
+use App\Http\Controllers\Api\ProductsVariations\ProductVariationController;
+use App\Http\Controllers\API\Shop\Product\ProductController as ShopProductController;
+use App\Http\Controllers\Api\ProductsAttributesOptions\ProductAttributeOptionController;
+use App\Http\Controllers\Api\ProductsCategories\ProductCategoryController as DashboardProductCategoryController;
+use App\Http\Controllers\Api\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,9 @@ Route::get("products-attributes/{attribute_name}/options", [ProductAttributeCont
 
 
 Route::get("product/{product_id}/variations", [ShopProductController::class, 'getProductVariations'])->name("product.variations");
+
+
+Route::get("wilaya/{wilaya_name}/communes", [WilayaController::class, 'getWilayaCommunes'])->name("wilaya.communes");
 
 
 Route::delete("products-attributes-options/{products_attribute_option}", [ProductAttributeOptionController::class, 'destroy'])
