@@ -21,7 +21,6 @@
 
                 @if ($cartData !== null)
                     @foreach ($cartData['items'] as $cartItem)
-
                         <div class="row mx-0 pb-4 mb-4 border-bottom"
                             id="cart-item-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}">
                             <div class="col-3">
@@ -58,7 +57,9 @@
                                         {{ $cartItem['quantity'] }}</small>
                                 </div>
 
-                                <p class="fw-bolder text-end m-0" id="item-price-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}">{{ $cartItem['price'] }} DA</p>
+                                <p class="fw-bolder text-end m-0"
+                                    id="item-price-{{ $cartItem['cart_id'] }}-{{ $cartItem['productVariation_id'] }}">
+                                    {{ $cartItem['price'] }} DA</p>
                             </div>
                         </div>
                     @endforeach
@@ -116,11 +117,16 @@
             <div class="border-top pt-3">
                 <div class="d-flex justify-content-between align-items-center">
                     <p class="m-0 fw-bolder">Total</p>
-                    <p class="m-0 fw-bolder" id="cart-total-price">{{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
+                    <p class="m-0 fw-bolder" id="cart-total-price">
+                        {{ $cartData !== null ? $cartData['total_price'] : '0.00' }} DA</p>
                 </div>
 
-                <a href="{{ auth()->user() == null ? route("shop.auth.login.index") : "#" }}"
-                    class="btn btn-orange btn-orange-chunky mt-5 mb-2 d-block text-center">Checkout</a>
+                <button class="btn btn-orange btn-orange-chunky mt-5 mb-2 d-block text-center" style="width: 100%"
+                    {{ $cartData == null ? 'disabled' : '' }}>
+                    <a href="{{ auth()->user() == null ? route('shop.auth.login.index') : route('shop.checkout') }}" style="text-decoration: none">Commander
+                    </a>
+                </button>
+
                 {{-- <a href="./cart.html"
                     class="btn btn-dark fw-bolder d-block text-center transition-all opacity-50-hover">View
                     Cart</a> --}}

@@ -35,6 +35,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -52,6 +53,7 @@
 
     <!-- Page Title -->
     <title>Alpine | Bootstrap 5 Ecommerce HTML Template</title>
+
 
 </head>
 
@@ -94,7 +96,7 @@
     @yield('js')
 
     <script src="{{ asset('js/myScripts/shop/product/deleteCartItem.js') }}"></script>
-    
+
 </body>
 
 </html>

@@ -18,6 +18,7 @@ use App\Http\Controllers\Web\Shop\Showcase\ShowcaseController as ShopShowcaseCon
 use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseController;
 use App\Http\Controllers\Web\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
 use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as DashboardProductCategoryController;
+use App\Http\Controllers\Web\Shop\Checkout\CheckoutController;
 
 // use App\Http\Controllers\AuthController;
 
@@ -62,7 +63,7 @@ Route::get("/test", function (Request $request) {
 });
 
 //! SHOP ROUTES ----------------------------------------------------------------------------------------------------------------------------
-Route::get('/', [ShopShowcaseController::class, "index"])->name("shop.showcase");
+Route::get('/home', [ShopShowcaseController::class, "index"])->name("shop.showcase");
 
 Route::get('/shop/products-categories/{products_category}', [ShopProductCategoryController::class, "index"])->name("shop.products-categories");
 
@@ -70,12 +71,14 @@ Route::get('/shop/product/{product}', [ShopProductController::class, "index"])->
 
 Route::post('/cart', [CartController::class, "store"])->name("cart.store");
 
-Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index");
-Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login");
-Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout");
+Route::get('/shop/checkout', [CheckoutController::class, "index"])->name("shop.checkout");
 
-Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form");
-Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register");
+Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index")->middleware("guest");
+Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login")->middleware("guest");
+Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout")->middleware("auth");
+
+Route::get("/shop/register", [ShopAuthController::class, "registerForm"])->name("shop.auth.register.form")->middleware("guest");
+Route::post("/shop/register", [ShopAuthController::class, "register"])->name("shop.auth.register.register")->middleware("guest");
 
 Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
 
@@ -84,9 +87,9 @@ Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])-
 
 //! DASHBOARD ROUTES -----------------------------------------------------------------------------------------------------------------------
 
-Route::get("/login", [DashboardAuthController::class, "index"])->name("dashboard.auth.login.index");
-Route::post("/login", [DashboardAuthController::class, "login"])->name("dashboard.auth.login.login");
-Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboard.auth.logout");
+Route::get("/login", [DashboardAuthController::class, "index"])->name("dashboard.auth.login.index")->middleware("guest");
+Route::post("/login", [DashboardAuthController::class, "login"])->name("dashboard.auth.login.login")->middleware("guest");
+Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboard.auth.logout")->middleware("auth");
 
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard.index");

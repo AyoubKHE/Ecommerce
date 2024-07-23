@@ -119,7 +119,7 @@
         <div class="container-fluid d-flex justify-content-between align-items-center flex-wrap">
 
             <!-- Logo-->
-            <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0" href="#">
+            <a class="navbar-brand fw-bold fs-3 m-0 p-0 flex-shrink-0" href="{{ route('shop.showcase') }}">
                 <!-- Start of Logo-->
                 <div class="d-flex align-items-center">
                     <div class="f-w-6 d-flex align-items-center me-2 lh-1">
@@ -191,11 +191,38 @@
                 <!-- /Navbar Wishlist-->
 
                 <!-- Navbar Login-->
-                <li class="ms-1 d-none d-lg-inline-block">
+                {{-- <li class="ms-1 d-none d-lg-inline-block">
                     <a class="btn btn-link px-2 text-decoration-none d-flex align-items-center" href="#">
                         <i class="ri-user-line ri-lg align-middle"></i>
                     </a>
-                </li>
+                </li> --}}
+
+                @if (auth()->user() == null)
+                    <li class="ms-1 d-none d-lg-inline-block">
+                        <a class="btn btn-link px-2 text-decoration-none d-flex align-items-center" href="{{ route('shop.auth.login.index') }}">
+                            <i class="fa fa-sign-in" aria-hidden="true"></i>
+                        </a>
+                    </li>
+                @else
+                    <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4 my-login-div" style="margin-right: 0 !important">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="ri-user-line ri-lg align-middle"></i>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="#">Settings</a></li>
+                                <li><a class="dropdown-item" href="#!">Activity Log</a></li>
+                                <li>
+                                    <hr class="dropdown-divider" />
+                                </li>
+                                <li><a class="dropdown-item" href="{{ route('shop.auth.logout') }}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                @endif
+
+
                 <!-- /Navbar Login-->
 
                 @if ($showCartCanva)
@@ -206,7 +233,8 @@
                             data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                             <i class="ri-shopping-cart-2-line ri-lg align-middle position-relative z-index-10"></i>
                             <span
-                                class="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white" id="cart-items-count">{{ $cartItemsCount }}</span>
+                                class="fs-xs fw-bolder f-w-5 f-h-5 bg-orange rounded-lg d-block lh-1 pt-1 position-absolute top-0 end-0 z-index-20 mt-2 text-white"
+                                id="cart-items-count">{{ $cartItemsCount }}</span>
                         </button>
                     </li>
                     <!-- /Navbar Cart-->
