@@ -69,6 +69,6 @@ allShippingMethodsRadioButtons.forEach(function (shippingMethodRadioButton) {
 
         let subtotalPrice = Number(document.getElementById("sous-total").innerHTML.trim().split(" ")[0]);
 
-        document.getElementById("price-total").innerHTML = subtotalPrice + shippingPrice + " DA";
+        document.getElementById("price-total").innerHTML = subtotalPrice + shippingPrice + ".00 DA";
     })
 })

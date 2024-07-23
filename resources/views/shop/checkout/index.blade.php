@@ -30,18 +30,7 @@
                             </div>
                         </div>
 
-                        <!-- Country-->
-                        {{-- <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="country" class="form-label">Wilaya</label>
-                                <select class="form-select" id="country">
-                                    <option value="">Veuillez sélectionner...</option>
-                                    <option>United States</option>
-                                </select>
-                            </div>
-                        </div> --}}
-
-                        <!-- Post Code-->
+                        <!-- Wilaya-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="country" class="form-label">Wilaya</label>
@@ -54,7 +43,7 @@
                             </div>
                         </div>
 
-                        <!-- State-->
+                        <!-- Commune-->
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="state" class="form-label">Commune</label>
