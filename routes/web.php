@@ -73,6 +73,8 @@ Route::post('/cart', [CartController::class, "store"])->name("cart.store");
 
 Route::get('/shop/checkout', [CheckoutController::class, "index"])->name("shop.checkout");
 
+Route::post('/shop/checkout', [CheckoutController::class, "orderValidation"])->name("shop.checkout.validation");
+
 Route::get("/shop/login", [ShopAuthController::class, "index"])->name("shop.auth.login.index")->middleware("guest");
 Route::post("/shop/login", [ShopAuthController::class, "login"])->name("shop.auth.login.login")->middleware("guest");
 Route::get("/shop/logout", [ShopAuthController::class, "logout"])->name("shop.auth.logout")->middleware("auth");

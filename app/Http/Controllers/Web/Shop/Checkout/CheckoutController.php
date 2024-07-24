@@ -13,4 +13,9 @@ class CheckoutController extends Controller
     {
         return Index::start($request);
     }
+
+    public function orderValidation(Request $request)
+    {
+        dd($request->all());
+    }
 }
