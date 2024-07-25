@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers\Web\Shop\Auth;
 
+use Carbon\Carbon;
+use App\Models\Cart;
 use App\Models\User;
+
+
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
-
-
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ClientRegisterRequest;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Controllers\Web\Shop\Auth\helpers\login;
+use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Web\Shop\Auth\helpers\register;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\Http\Controllers\Web\Shop\Auth\helpers\registerForm;
-use Carbon\Carbon;
 
 class AuthController extends Controller
 {
@@ -33,6 +34,13 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
+        $session_id = $request->cookie()["laravel_session"];
+
+        $cart = Cart::where("session_id", $session_id)->first();
+
+        if(!$cart->delete()) {
+            // log cart id in register...
+        }
 
         $current_user =  User::find(auth()->user()->id);
 
