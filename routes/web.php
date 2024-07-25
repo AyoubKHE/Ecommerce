@@ -36,16 +36,7 @@ use App\Http\Controllers\Web\Shop\Checkout\CheckoutController;
 
 Route::get("/test", function (Request $request) {
 
-    // Auth::logout();
-
-    // $request->session()->invalidate();
-
-    // $request->session()->regenerateToken();
-
-    dd(auth()->user());
-
-
-
+    // dd(auth()->user());
 
     // User::create([
     //     "first_name" => "Ayoub",
@@ -93,6 +84,8 @@ Route::get("/login", [DashboardAuthController::class, "index"])->name("dashboard
 Route::post("/login", [DashboardAuthController::class, "login"])->name("dashboard.auth.login.login")->middleware("guest");
 Route::get("/logout", [DashboardAuthController::class, "logout"])->name("dashboard.auth.logout")->middleware("auth");
 
+// Route::get("dashboard/verify-email/{token}", [DashboardAuthController::class, "verifyEmail"])->name("dashboard.auth.verifyEmail");
+
 Route::group(['middleware' => ['auth']], function () {
     Route::get("/dashboard", [DashboardController::class, "index"])->name("dashboard.index");
     Route::resource("products-categories", DashboardProductCategoryController::class);
@@ -105,8 +98,9 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::get("/showcase/body/edit", [DashboardShowcaseController::class, "bodyEdit"])->name("showcase.body.edit");
     Route::put("/showcase/body", [DashboardShowcaseController::class, "bodyUpdate"])->name("showcase.body.update");
+
+    Route::resource("users", UserController::class);
+    Route::put("/currentUser/{user}", [UserController::class, "updateCurrentUser"])->name("users.updateCurrentUser");
 });
 
-Route::resource("users", UserController::class);
-Route::put("/currentUser/{user}", [UserController::class, "updateCurrentUser"])->name("users.updateCurrentUser");
 //!-----------------------------------------------------------------------------------------------------------------------------------------

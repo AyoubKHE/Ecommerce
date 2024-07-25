@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Web\Auth;
 use App\Models\User;
 use App\Services\JWTService;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use App\Mail\EmailValidation;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Http\RedirectResponse;
 
 
 class login
@@ -64,35 +66,75 @@ class login
         static::$request->session()->regenerateToken();
     }
 
-
     private static function performLogin(): RedirectResponse
     {
         if (auth()->attempt(static::$credentials)) {
 
-            if (auth()->user()->is_active == 0) {
+            if (auth()->user()->role == "admin" || auth()->user()->role == "user") {
+
+                if (auth()->user()->is_active == 0) {
+
+                    if (auth()->user()->email_verification_token == "") {
+
+                        $message = [
+                            "type" => "warning",
+                            "text" => "Vous n avez pas access à votre compte. Veuillez contacter notre support pour assistance."
+                        ];
+
+                    } else {
+
+                        try {
+                            Mail::to(auth()->user()->email)->send(new EmailValidation(auth()->user()->first_name, auth()->user()->email_verification_token));
+
+                            $message = [
+                                "type" => "success",
+                                "text" => "Votre compte n est pas encore confirmé.
+                                Un email de confirmation vous a été envoyé. Veuillez vérifier votre boîte de réception pour confirmer votre adresse email."
+                            ];
+                        } catch (\Exception $e) {
+
+                            $message = [
+                                "type" => "warning",
+                                "text" => "Votre compte n est pas encore confirmé."
+                            ];
+                        }
+
+                    }
+
+                    static::logoutUser();
+
+                    return back()->with("message", $message);
+                } else {
+
+                    $access_token = static::buildAccessToken();
+
+                    $refresh_token = static::buildRefreshToken();
+
+                    static::$request->session()->regenerate();
+
+                    return to_route("dashboard.index")->withCookies(
+                        [
+                            cookie("access_token", $access_token, httpOnly: true, secure: true),
+                            cookie("refresh_token", $refresh_token, httpOnly: true, secure: true),
+                        ]
+                    );
+                }
+            } else {
 
                 static::logoutUser();
 
-                return to_route("auth.login.index");
+                $message = [
+                    "type" => "danger",
+                    "text" => "email ou mot de passe incorrect"
+                ];
+
+                return back()->with("message", $message);
             }
-
-            $access_token = static::buildAccessToken();
-
-            $refresh_token = static::buildRefreshToken();
-
-            static::$request->session()->regenerate();
-
-            return to_route("dashboard.index")->withCookies(
-                [
-                    cookie("access_token", $access_token, httpOnly: true, secure: true),
-                    cookie("refresh_token", $refresh_token, httpOnly: true, secure: true),
-                ]
-            );
         } else {
 
             $message = [
                 "type" => "danger",
-                "text" => "Username ou mot de passe incorrect"
+                "text" => "email ou mot de passe incorrect"
             ];
 
             return back()->with("message", $message);

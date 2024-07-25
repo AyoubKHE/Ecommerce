@@ -51,4 +51,5 @@ class AuthController extends Controller
 
         return to_route("dashboard.auth.login.index");
     }
+
 }

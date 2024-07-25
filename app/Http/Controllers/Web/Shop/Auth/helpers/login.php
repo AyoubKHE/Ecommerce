@@ -62,29 +62,42 @@ class login
         if (auth()->attempt(static::$credentials)) {
 
             if (auth()->user()->role == "client") {
+                
                 if (auth()->user()->is_active == 0) {
 
+
                     if (auth()->user()->email_verification_token == "") {
-                        static::logoutUser();
 
                         $message = [
                             "type" => "warning",
                             "text" => "Vous n avez pas access à votre compte. Veuillez contacter notre support pour assistance."
                         ];
 
-                        return back()->with("message", $message);
                     } else {
 
-                        Mail::to(auth()->user()->email)->send(new EmailValidation(auth()->user()->first_name, auth()->user()->email_verification_token));
+                        try {
+                            Mail::to(auth()->user()->email)->send(new EmailValidation(auth()->user()->first_name, auth()->user()->email_verification_token));
 
-                        $message = [
-                            "type" => "success",
-                            "text" => "Votre compte n est pas encore confirmé.
-                            Un email de confirmation vous a été envoyé. Veuillez vérifier votre boîte de réception pour confirmer votre adresse email."
-                        ];
+                            $message = [
+                                "type" => "success",
+                                "text" => "Votre compte n est pas encore confirmé.
+                                Un email de confirmation vous a été envoyé. Veuillez vérifier votre boîte de réception pour confirmer votre adresse email."
+                            ];
+                        } catch (\Exception $e) {
 
-                        return back()->with("message", $message);
+                            $message = [
+                                "type" => "warning",
+                                "text" => "Votre compte n est pas encore confirmé."
+                            ];
+                        }
+
                     }
+
+                    static::logoutUser();
+
+                    return back()->with("message", $message);
+
+
                 } else {
                     if (static::changeCartSessionId()) {
                         return to_route("shop.showcase");

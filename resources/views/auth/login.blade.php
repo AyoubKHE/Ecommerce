@@ -22,6 +22,8 @@
 
     <section class="container my-container">
 
+        <x-messages.flashbag />
+
         <div class="row align-items-center" style="height: 80vh;">
 
             <div class="col-12">

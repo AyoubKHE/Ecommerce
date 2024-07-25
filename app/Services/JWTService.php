@@ -4,8 +4,6 @@ namespace App\Services;
 
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
-use stdClass;
-use UnexpectedValueException;
 
 class JWTService
 {

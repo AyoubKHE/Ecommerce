@@ -34,7 +34,6 @@ class UserRequest extends FormRequest
                         "password" => ["required", "min:5", "max:255"],
                         "phone" => ["unique:users", "min:10", "max:10"],
                         "birth_date" => ["date"],
-                        "is_active" => ["required"],
                         "role" => ["required"],
                         "user_image" => ["required", "image", "max:5000", "mimes:jpg,png,jpeg,svg"],
                     ];

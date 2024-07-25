@@ -86,7 +86,7 @@
                 @enderror
                 <br>
 
-                <div class="d-flex">
+                {{-- <div class="d-flex">
                     <label for="" class="form-label">Active:</label>
 
                     <div class="form-check">
@@ -100,7 +100,7 @@
                             value="0" />
                     </div>
                 </div>
-                <br>
+                <br> --}}
 
                 <div class="d-flex align-items-center">
                     <label for="" class="form-label m-0">Role:</label>

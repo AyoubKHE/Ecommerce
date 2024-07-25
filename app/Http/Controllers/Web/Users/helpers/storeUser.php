@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Web\Users\helpers;
 
 use App\Models\User;
+use Illuminate\Support\Str;
+use App\Mail\EmailValidation;
 use App\Models\UserPermission;
 use App\Models\SystemPermission;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Storage;
 use App\Models\UserPermission_SystemPermission;
@@ -46,6 +49,10 @@ class storeUser
         static::$user_form_fields["added_by"] = auth()->user()->id;
 
         static::$user_form_fields["password"] = Hash::make(static::$user_form_fields["password"]);
+
+        static::$user_form_fields["email_verification_token"] = Str::random(60);
+
+        static::$user_form_fields["is_active"] = 0;
     }
 
 
@@ -129,12 +136,20 @@ class storeUser
                 }
 
                 static::storeUserPermissions();
+
+                Mail::to($user->email)->send(new EmailValidation($user->first_name, $user->email_verification_token));
             });
 
             $message = [
                 "type" => "success",
-                "text" => "l utilisateur est bien créé."
+                "text" => "La creation de compte a réussi.
+                Un email de confirmation a été envoyé à l utilsateur."
             ];
+
+            // $message = [
+            //     "type" => "success",
+            //     "text" => "l utilisateur est bien créé."
+            // ];
         } catch (\Exception $th) {
 
             if (static::$isUsersImagesFolderCreated) {

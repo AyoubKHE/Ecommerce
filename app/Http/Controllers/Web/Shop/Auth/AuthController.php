@@ -93,7 +93,12 @@ class AuthController extends Controller
                 ];
             }
 
-            return to_route("shop.auth.login.index")->with("message", $message);
+            if($user->role === "client") {
+                return to_route("shop.auth.login.index")->with("message", $message);
+            }
+            else {
+                return to_route("dashboard.auth.login.index")->with("message", $message);
+            }
         }
     }
 }
