@@ -12,18 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('addresses', function (Blueprint $table) {
+
             $table->id();
 
-            $table->string("unit_number", 50);
-            $table->string("street_number", 50);
-            $table->string("address_line1", 100);
-            $table->string("address_line2", 100);
-            $table->string("city", 50);
-            $table->string("region", 50);
-            $table->string("postal_code", 25);
+            $table->string("address")->nullable(false);
 
-            $table->unsignedSmallInteger('country_id')->nullable(false);
-            $table->foreign('country_id')->references('id')->on('countries')->cascadeOnDelete();
+            $table->unsignedInteger('commune_id')->nullable(false);
+            $table->foreign('commune_id')->references('id')->on('communes');
         });
     }
 

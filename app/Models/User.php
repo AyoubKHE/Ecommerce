@@ -36,7 +36,8 @@ class User extends Authenticatable
     }
 
     public function addresses() {
-        return $this->belongsToMany(Address::class, "users_addresse", "user_id", "address_id");
+        return $this->belongsToMany(Address::class, "users_addresses", "user_id", "address_id")
+        ->withPivot('is_default', 'is_active', 'created_at', 'updated_at');
     }
 
     public function addedBy() {

@@ -17,13 +17,160 @@
 
             @csrf
 
+            <input type="hidden" name="cart_id" value="{{ $data['cartData']['id'] }}">
+
             <div class="row g-md-8 mt-4">
                 <!-- Checkout Panel Left -->
                 <div class="col-12 col-lg-6 col-xl-7">
 
-                    <!-- /Checkout Panel Contact --> <!-- Checkout Shipping Address -->
                     <div class="checkout-panel">
+
                         <h5 class="title-checkout">Adresse de livraison</h5>
+
+                        @if (count($data['user_addresses']) == 0)
+                            <div class="row">
+
+                                <!-- Address-->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="address" class="form-label">Adresse</label>
+                                        <input type="text" class="form-control" id="address" name="address">
+                                    </div>
+                                </div>
+
+                                <!-- Wilaya-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="wilayas-select" class="form-label">Wilaya</label>
+                                        <select class="form-select" id="wilayas-select" name="wilaya_id">
+                                            <option value="">Veuillez sélectionner...</option>
+                                            @foreach ($data['wilayas'] as $wilaya)
+                                                <option data-wilaya-id="{{ $wilaya['id'] }}" value="{{ $wilaya['id'] }}"
+                                                    {{ $wilaya['name'] == 'Béjaïa' ? 'selected' : '' }}>
+                                                    {{ $wilaya['name'] }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <!-- Commune-->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="communes-select" class="form-label">Commune</label>
+                                        <select class="form-select" id="communes-select" name="commune_id">
+                                            <option value="">Veuillez sélectionner...</option>
+                                            @foreach ($data['BejaiaCommunes'] as $commune)
+                                                <option value="{{ $commune['id'] }}">{{ $commune['name'] }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        @else
+                            <div class="row">
+
+                                @foreach ($data['user_addresses'] as $user_address)
+                                    <div class="col-12">
+                                        <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                            <input class="form-check-input" type="radio" name="user_address"
+                                                value="{{ $user_address['address_id'] }}"
+                                                id="address-{{ $user_address['address_id'] }}"
+                                                {{ $user_address['is_default'] == 1 ? "checked" : "" }}>
+                                            <label class="form-check-label" for="address-{{ $user_address['address_id'] }}">
+                                                <span class="d-flex justify-content-between align-items-start w-100">
+                                                    <span>
+                                                        <span class="mb-0 fw-bolder d-block">
+                                                            {{ $user_address['address']["address"] }} / {{ $user_address['address']["commune"]["name"] }}
+                                                            - {{ $user_address['address']["commune"]["wilaya"]["name"] }}
+                                                        </span>
+                                                    </span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                @endforeach
+
+
+
+
+                                <div class="col-12">
+                                    <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                        <input class="form-check-input" type="radio" name="user_address"
+                                            value="new_address" id="address">
+                                        <label class="form-check-label" for="address">
+                                            <span class="d-flex justify-content-between align-items-start">
+                                                <span>
+                                                    <span class="mb-0 fw-bolder d-block">Nouvelle adresse</span>
+                                                </span>
+                                            </span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div id="new-address-form" style="display: none">
+                                    <div class="row">
+
+                                        <!-- Address-->
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <label for="address" class="form-label">Adresse</label>
+                                                <input type="text" class="form-control" id="address" name="address">
+                                            </div>
+                                        </div>
+
+                                        <!-- Wilaya-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="wilayas-select" class="form-label">Wilaya</label>
+                                                <select class="form-select" id="wilayas-select" name="wilaya_id">
+                                                    <option value="">Veuillez sélectionner...</option>
+                                                    @foreach ($data['wilayas'] as $wilaya)
+                                                        <option data-wilaya-id="{{ $wilaya['id'] }}"
+                                                            value="{{ $wilaya['id'] }}"
+                                                            {{ $wilaya['name'] == 'Béjaïa' ? 'selected' : '' }}>
+                                                            {{ $wilaya['name'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <!-- Commune-->
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="communes-select" class="form-label">Commune</label>
+                                                <select class="form-select" id="communes-select" name="commune_id">
+                                                    <option value="">Veuillez sélectionner...</option>
+                                                    @foreach ($data['BejaiaCommunes'] as $commune)
+                                                        <option value="{{ $commune['id'] }}">{{ $commune['name'] }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        @endif
+
+
+
+                    </div>
+
+
+
+
+                    <!-- /Checkout Panel Contact --> <!-- Checkout Shipping Address -->
+                    {{-- <div class="checkout-panel">
+
+                        <h5 class="title-checkout">Adresse de livraison</h5>
+
                         <div class="row">
 
                             <!-- Address-->
@@ -37,11 +184,11 @@
                             <!-- Wilaya-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="country" class="form-label">Wilaya</label>
-                                    <select class="form-select" id="wilayas-select" name="wilaya">
+                                    <label for="wilayas-select" class="form-label">Wilaya</label>
+                                    <select class="form-select" id="wilayas-select" name="wilaya_id">
                                         <option value="">Veuillez sélectionner...</option>
                                         @foreach ($data['wilayas'] as $wilaya)
-                                            <option data-wilaya-id="{{ $wilaya['id'] }}" value="{{ $wilaya['name'] }}"
+                                            <option data-wilaya-id="{{ $wilaya['id'] }}" value="{{ $wilaya['id'] }}"
                                                 {{ $wilaya['name'] == 'Béjaïa' ? 'selected' : '' }}>{{ $wilaya['name'] }}
                                             </option>
                                         @endforeach
@@ -52,11 +199,11 @@
                             <!-- Commune-->
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="state" class="form-label">Commune</label>
-                                    <select class="form-select" id="communes-select" name="commune">
+                                    <label for="communes-select" class="form-label">Commune</label>
+                                    <select class="form-select" id="communes-select" name="commune_id">
                                         <option value="">Veuillez sélectionner...</option>
                                         @foreach ($data['BejaiaCommunes'] as $commune)
-                                            <option value="{{ $commune['name'] }}">{{ $commune['name'] }}</option>
+                                            <option value="{{ $commune['id'] }}">{{ $commune['name'] }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -65,82 +212,31 @@
 
                         </div>
 
-                        {{-- <div class="pt-4 mt-4 border-top d-flex justify-content-between align-items-center">
-                            <!-- Shipping Same Checkbox-->
-                            <div class="form-group form-check m-0">
-                                <input type="checkbox" class="form-check-input" id="same-address" checked>
-                                <label class="form-check-label" for="same-address">Use for billing address</label>
-                            </div>
-                        </div> --}}
-                    </div>
-                    <!-- /Checkout Shipping Address --> <!-- Checkout Billing Address-->
-                    {{-- <div class="billing-address checkout-panel d-none">
-                        <h5 class="title-checkout">Billing Address</h5>
-                        <div class="row">
-                            <!-- First Name-->
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="firstNameAddress" class="form-label">First name</label>
-                                    <input type="text" class="form-control" id="firstNameAddress" placeholder=""
-                                        value="" required="">
-                                </div>
-                            </div>
-
-                            <!-- Last Name-->
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="lastNameAddress" class="form-label">Last name</label>
-                                    <input type="text" class="form-control" id="lastNameAddress" placeholder=""
-                                        value="" required="">
-                                </div>
-                            </div>
-
-                            <!-- Address-->
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="addressAddress" class="form-label">Address</label>
-                                    <input type="text" class="form-control" id="addressAddress"
-                                        placeholder="123 Some Street Somewhere" required="">
-                                </div>
-                            </div>
-
-                            <!-- Country-->
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="countryAddress" class="form-label">Country</label>
-                                    <select class="form-select" id="countryAddress" required="">
-                                        <option value="">Please Select...</option>
-                                        <option>United States</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- State-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="stateAddress" class="form-label">State</label>
-                                    <select class="form-select" id="stateAddress" required="">
-                                        <option value="">Please Select...</option>
-                                        <option>California</option>
-                                    </select>
-                                </div>
-                            </div>
-
-                            <!-- Post Code-->
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="zipAddress" class="form-label">Zip/Post Code</label>
-                                    <input type="text" class="form-control" id="zipAddress" placeholder=""
-                                        required="">
-                                </div>
-                            </div>
-                        </div>
                     </div> --}}
-                    <!-- / Checkout Billing Address--> <!-- Checkout Shipping Method-->
+
                     <div class="checkout-panel">
                         <h5 class="title-checkout">Méthode de livraison</h5>
 
-                        <!-- Shipping Option-->
+                        @foreach ($data['shippingMethods'] as $shipping_method)
+                            <div class="form-check form-group form-check-custom form-radio-custom mb-3">
+                                <input class="form-check-input" type="radio" name="shipping_method_id"
+                                    id="shipping-method-{{ $shipping_method['id'] }}"
+                                    {{ $shipping_method['price'] == 0 ? 'Checked' : '' }}
+                                    value="{{ $shipping_method['id'] }}" data-price="{{ $shipping_method['price'] }}">
+                                <label class="form-check-label" for="shipping-method-{{ $shipping_method['id'] }}">
+                                    <span class="d-flex justify-content-between align-items-start w-100">
+                                        <span>
+                                            <span class="mb-0 fw-bolder d-block">{{ $shipping_method['name'] }}</span>
+                                            <small class="fw-bolder">{{ $shipping_method['description'] }}</small>
+                                        </span>
+                                        <span
+                                            class="small fw-bolder text-uppercase">{{ $shipping_method['price'] == 0 ? 'Gratuit' : $shipping_method['price'] }}</span>
+                                    </span>
+                                </label>
+                            </div>
+                        @endforeach
+
+                        {{-- <!-- Shipping Option-->
                         <div class="form-check form-group form-check-custom form-radio-custom mb-3">
                             <input class="form-check-input" type="radio" name="shipping_method" id="shipping-method-1"
                                 checked value="from_store" data-price="0">
@@ -168,7 +264,7 @@
                                     <span class="small fw-bolder text-uppercase">300 DA</span>
                                 </span>
                             </label>
-                        </div>
+                        </div> --}}
 
                         <!-- Shipping Option-->
                         {{-- <div class="form-check form-group form-check-custom form-radio-custom mb-3">

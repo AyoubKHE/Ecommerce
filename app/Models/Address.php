@@ -12,14 +12,14 @@ class Address extends Model
     public $timestamps = false;
 
     protected $fillable = [
-        "unit_number", "street_number", "address_line1", "address_line2", "city", "region", "postal_code", "country_id"
+        "address", "commune_id"
     ];
 
-    public function country() {
-        return $this->belongsTo(Country::class, "country_id", "id");
+    public function commune() {
+        return $this->belongsTo(Commune::class, "commune_id", "id");
     }
 
-    public function people() {
-        return $this->belongsToMany(User::class, "users_addresse", "address_id", "user_id");
-    }
+    // public function people() {
+    //     return $this->belongsToMany(User::class, "users_addresse", "address_id", "user_id");
+    // }
 }

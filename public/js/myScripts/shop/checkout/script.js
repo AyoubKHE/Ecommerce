@@ -3,11 +3,11 @@ let wilayasSelect = document.getElementById("wilayas-select");
 wilayasSelect.addEventListener("change", function () {
     if (this.value != "") {
 
-        let wilayaName = this.value;
+        let wilayaId = this.value;
 
         axios({
             method: "GET",
-            url: `http://127.0.0.1:8000/api/wilaya/${wilayaName}/communes`,
+            url: `http://127.0.0.1:8000/api/wilaya/${wilayaId}/communes`,
         })
             .then(response => {
                 console.log(response);
@@ -25,8 +25,8 @@ wilayasSelect.addEventListener("change", function () {
                 for (const commune of communes) {
 
                     let option = document.createElement("option");
-                    option.value = commune;
-                    option.innerHTML = commune;
+                    option.value = commune["id"];
+                    option.innerHTML = commune["name"];
 
                     communesSelect.appendChild(option);
                 }
@@ -72,3 +72,18 @@ allShippingMethodsRadioButtons.forEach(function (shippingMethodRadioButton) {
         document.getElementById("price-total").innerHTML = subtotalPrice + shippingPrice + ".00 DA";
     })
 })
+
+
+document.addEventListener('DOMContentLoaded', function (event) {
+
+    document.querySelectorAll('input[name="user_address"]').forEach((userAddressInput) => {
+        userAddressInput.addEventListener("change", function () {
+
+            if (this.value == "new_address") {
+                document.getElementById("new-address-form").style.display = 'block';
+            }else {
+                document.getElementById("new-address-form").style.display = 'none';
+            }
+        });
+    });
+});

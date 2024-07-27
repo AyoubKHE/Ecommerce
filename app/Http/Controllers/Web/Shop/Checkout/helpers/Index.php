@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Web\Shop\Checkout\helpers;
 
 use App\Models\Cart;
+use App\Models\User;
 use App\Models\Wilaya;
 use App\Models\Commune;
+use App\Models\User_Address;
 use Illuminate\Http\Request;
+use App\Models\ShippingMethod;
 use App\Models\ProductCategory;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
@@ -66,6 +69,23 @@ class Index extends Controller
         static::$data["BejaiaCommunes"] = Commune::where("wilaya_id", 6)->get()->toArray();
     }
 
+    private static function loadShippingMethods()
+    {
+        static::$data["shippingMethods"] = ShippingMethod::all()->toArray();
+    }
+
+    private static function loadUserAddresses()
+    {
+
+        static::$data["user_addresses"] = User_Address::where("user_id", auth()->user()->id)
+        ->with("address", function ($query) {
+            $query->with("commune", function ($query) {
+                $query->with("wilaya");
+            });
+        })
+        ->get()->toArray();
+    }
+
     public static function start(Request $request)
     {
 
@@ -76,6 +96,10 @@ class Index extends Controller
         static::loadCartData();
 
         static::loadWilayasAndCommunes();
+
+        static::loadShippingMethods();
+
+        static::loadUserAddresses();
 
         // dd(static::$data);
 
