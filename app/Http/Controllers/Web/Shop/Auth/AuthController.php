@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ClientRegisterRequest;
 use App\Http\Controllers\Web\Shop\Auth\helpers\login;
+use App\Http\Controllers\Web\Shop\Auth\helpers\logout;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use App\Http\Controllers\Web\Shop\Auth\helpers\register;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -34,27 +35,35 @@ class AuthController extends Controller
 
     public function logout(Request $request): RedirectResponse
     {
-        $session_id = $request->cookie()["laravel_session"];
 
-        $cart = Cart::where("session_id", $session_id)->first();
+        return logout::start($request);
 
-        if(!$cart->delete()) {
-            // log cart id in register...
-        }
+        // $session_id = $request->cookie()["laravel_session"];
 
-        $current_user =  User::find(auth()->user()->id);
+        // $cart = Cart::where("session_id", $session_id)->first();
 
-        $current_user->last_login = now();
 
-        $current_user->save();
+        // if ($cart != null) {
+        //     // !!!!!!! il faut rendre les variation à leur place
+        //     if (!$cart->delete()) {
+        //         // log cart id in register...
+        //     }
+        // }
 
-        Auth::logout();
 
-        $request->session()->invalidate();
+        // $current_user =  User::find(auth()->user()->id);
 
-        $request->session()->regenerateToken();
+        // $current_user->last_login = now();
 
-        return to_route("shop.auth.login.index");
+        // $current_user->save();
+
+        // Auth::logout();
+
+        // $request->session()->invalidate();
+
+        // $request->session()->regenerateToken();
+
+        // return to_route("shop.auth.login.index");
     }
 
 
@@ -93,7 +102,6 @@ class AuthController extends Controller
                 ];
 
                 return to_route("shop.auth.register.form")->with("message", $message);
-
             } else {
                 $message = [
                     "type" => "success",
@@ -101,10 +109,9 @@ class AuthController extends Controller
                 ];
             }
 
-            if($user->role === "client") {
+            if ($user->role === "client") {
                 return to_route("shop.auth.login.index")->with("message", $message);
-            }
-            else {
+            } else {
                 return to_route("dashboard.auth.login.index")->with("message", $message);
             }
         }

@@ -19,6 +19,7 @@ use App\Http\Controllers\Web\Showcase\ShowcaseController as DashboardShowcaseCon
 use App\Http\Controllers\Web\Shop\ProductsCategories\ProductCategoryController as ShopProductCategoryController;
 use App\Http\Controllers\Web\ProductsCategories\ProductCategoryController  as DashboardProductCategoryController;
 use App\Http\Controllers\Web\Shop\Checkout\CheckoutController;
+use App\Http\Controllers\Web\Shop\Payment\ChargilyPayController;
 
 // use App\Http\Controllers\AuthController;
 
@@ -75,6 +76,11 @@ Route::post("/shop/register", [ShopAuthController::class, "register"])->name("sh
 
 Route::get("/verify-email/{token}", [ShopAuthController::class, "verifyEmail"])->name("shop.auth.verifyEmail");
 
+
+
+Route::get('chargilypay/redirect/{payment}', [ChargilyPayController::class, "redirect"])->name("chargilypay.redirect");
+Route::get('chargilypay/back', [ChargilyPayController::class, "back"])->name("chargilypay.back");
+Route::post('chargilypay/webhook', [ChargilyPayController::class, "webhook"])->name("chargilypay.webhook_endpoint");
 
 //!-----------------------------------------------------------------------------------------------------------------------------------------
 
