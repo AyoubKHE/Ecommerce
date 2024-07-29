@@ -15,7 +15,7 @@ class Order extends Model
         "user_id", "shippingMethod_id", "address_id", "orderStatus_id", "items_count", "total_price", "more_details"
     ];
 
-    // public function items() {
-    //     return $this->hasMany(CartItem::class, "cart_id", "id");
-    // }
+    public function items() {
+        return $this->hasMany(OrderItem::class, "order_id", "id");
+    }
 }
