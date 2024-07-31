@@ -70,7 +70,7 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
     VALUES ('Admin', 'admin@example.com', 'votre_mot_de_passe_hashé', NOW(), NOW());
     ```
 
-   **Note:** Utilisez une fonction de hachage comme `bcrypt` pour sécuriser le mot de passe.
+   **Note:** Une fois que le premier compte administrateur est créé, vous pouvez utiliser le système de gestion des utilisateurs intégré à l'application pour ajouter, modifier ou supprimer des utilisateurs directement depuis le dashboard administrateur.
    
 ## Schéma Relationnel de la Base de Données
 
