@@ -1,5 +1,3 @@
-Vous trouverez le schéma relationnelle de la base de de données dans le dossier "database"
-
 # Mon Projet E-commerce Laravel
 
 ## Prérequis
@@ -73,6 +71,10 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
     ```
 
    **Note:** Utilisez une fonction de hachage comme `bcrypt` pour sécuriser le mot de passe.
+   
+## Schéma Relationnel de la Base de Données
+
+Vous trouverez le schéma relationnel de la base de données dans le dossier `database`. Ce schéma vous donnera une vue d'ensemble de la structure de la base de données et des relations entre les différentes tables.
 
 ## Lancement de l'Application
 
