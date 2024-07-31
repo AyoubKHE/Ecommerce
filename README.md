@@ -14,7 +14,7 @@ Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 1. Clonez le dépôt sur votre machine locale :
 
     ```bash
-    git clone https://github.com/votre-utilisateur/votre-projet.git
+    git clone https://github.com/AyoubKHE/Ecommerce.git
     cd votre-projet
     ```
 
