@@ -19,7 +19,8 @@ class BackupService
             $destinationPath = $destinationFolder . '/' . $file_name;
             if (!Storage::copy($sourcePath, $destinationPath)) {
                 Storage::deleteDirectory($destinationFolder);
-                return false;            }
+                return false;
+            }
         }
 
         return true;
