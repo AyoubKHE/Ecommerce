@@ -20,20 +20,21 @@ class UserFactory extends Factory
      */
     public function definition(): array
     {
+        return [];
+        // $person = Person::doesntHave('user')->inRandomOrder()->first();
 
-        $person = Person::doesntHave('user')->inRandomOrder()->first();
+        // if ($person !== null) {
 
-        if ($person !== null) {
+        //     $usersRoles = UserRole::all();
+        //     $userRole = $usersRoles->random();
 
-            $usersRoles = UserRole::all();
-            $userRole = $usersRoles->random();
+        //     return [
 
-            return [
-                'person_id' => $person->id,
-                'userrole_id' => $userRole->id,
-            ];
-        } else {
-            return [];
-        }
+        //         'person_id' => $person->id,
+        //         'userrole_id' => $userRole->id,
+        //     ];
+        // } else {
+        //     return [];
+        // }
     }
 }

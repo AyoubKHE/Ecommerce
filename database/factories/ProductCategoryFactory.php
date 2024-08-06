@@ -23,7 +23,6 @@ class ProductCategoryFactory extends Factory
         return [
             'name' => fake()->unique()->word(),
             'description' => fake()->unique()->sentences(2, true),
-            // 'image_path' => fake()->unique()->image('storage/app/public/products_categories'),
             'ordering' => fake()->unique()->numberBetween(),
             'is_active' => fake()->boolean(),
             'added_by' => $user->id
