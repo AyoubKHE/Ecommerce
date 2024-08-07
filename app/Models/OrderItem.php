@@ -15,16 +15,6 @@ class OrderItem extends Model
         "order_id", "productVariation_id", "quantity", "price"
     ];
 
-    // public function cart()
-    // {
-    //     return $this->belongsTo(Cart::class, "cart_id", "id");
-    // }
-
-    // public function variation()
-    // {
-    //     return $this->belongsTo(ProductVariation::class, "productVariation_id", "id");
-    // }
-
     protected function setKeysForSaveQuery($query)
     {
         $query

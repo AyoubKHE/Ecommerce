@@ -17,7 +17,4 @@ class OrderStatus extends Model
         "status", "description"
     ];
 
-    // public function items() {
-    //     return $this->hasMany(CartItem::class, "cart_id", "id");
-    // }
 }

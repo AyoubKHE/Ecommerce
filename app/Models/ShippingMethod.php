@@ -17,7 +17,4 @@ class ShippingMethod extends Model
         "name", "description", "price"
     ];
 
-    // public function items() {
-    //     return $this->hasMany(CartItem::class, "cart_id", "id");
-    // }
 }

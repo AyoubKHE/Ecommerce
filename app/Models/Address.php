@@ -19,7 +19,7 @@ class Address extends Model
         return $this->belongsTo(Commune::class, "commune_id", "id");
     }
 
-    // public function people() {
-    //     return $this->belongsToMany(User::class, "users_addresse", "address_id", "user_id");
-    // }
+    public function users() {
+        return $this->belongsToMany(User::class, "users_addresse", "address_id", "user_id");
+    }
 }
