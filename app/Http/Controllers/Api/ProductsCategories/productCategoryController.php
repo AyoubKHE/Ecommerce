@@ -102,9 +102,7 @@ class ProductCategoryController extends Controller
 
         if (isset($filter['added_by'])) {
             $productsCategoriesFilterQuery = $productsCategoriesFilterQuery->whereHas('addedBy', function (Builder $query) use ($filter) {
-                $query->whereHas('person', function (Builder $query) use ($filter) {
-                    $query->where('username', $filter['added_by']);
-                });
+                $query->where('username', $filter['added_by']);
             });
         }
 
@@ -113,20 +111,6 @@ class ProductCategoryController extends Controller
                 $query->where('name', $filter['base_category_name']);
             });
         }
-
-        // if (isset($filter['quantity_of_products'])) {
-        //     $productsCategoriesFilterQuery = $productsCategoriesFilterQuery->has('products', '>=', $filter['quantity_of_products']["from"])
-        //         ->has('products', '<=', $filter['quantity_of_products']["to"]);
-        // }
-
-        // if (isset($filter['quantity_of_active_products'])) {
-        //     $productsCategoriesFilterQuery = $productsCategoriesFilterQuery->whereHas('productsPivot', function (Builder $query) use ($filter) {
-        //         $query->where('is_active', 1);
-        //     }, '>=', $filter['quantity_of_active_products']["from"])
-        //         ->whereHas('productsPivot', function (Builder $query) use ($filter) {
-        //             $query->where('is_active', 1);
-        //         }, '<=', $filter['quantity_of_products']["to"]);
-        // }
 
         $productsCategoriesData = $productsCategoriesFilterQuery->addSelect(
             [
@@ -138,7 +122,6 @@ class ProductCategoryController extends Controller
 
             ]
         )->get();
-        // paginate(env("productCategoriesPagination"), ['*'], 'page', $page);
 
         foreach ($productsCategoriesData as $key => $product_category_data) {
             $product_category_data->subCategoriesCount = SubCategoriesService::getSubCategoriesCountForSpecificCategory($product_category_data->id);
