@@ -93,7 +93,7 @@ Vous trouverez le schéma relationnel de la base de données dans le dossier `da
 3. Connectez-vous au dashboard via :
 
     ```
-    http://localhost:8000/admin
+    http://localhost:8000/login
     ```
 
 4. Utilisez les informations d'identification que vous avez créées pour vous connecter.
