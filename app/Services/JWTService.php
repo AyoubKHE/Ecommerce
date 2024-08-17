@@ -37,30 +37,6 @@ class JWTService
 
         return $JWTArr;
 
-        // try {
-
-        //     $decodedJWT = JWT::decode($jwt_token, new Key(env("JWT_SECRET"), 'HS256'));
-
-        //     $JWTArr = (array) $decodedJWT;
-
-        //     return $JWTArr;
-        // } catch (\Exception $e) {
-
-
-        //     // $err = buildError(
-        //     //     $error->getMessage(),
-        //     //     $error->getFile(),
-        //     //     $error->getLine()
-        //     // );
-
-        //     // $response = json_encode(
-        //     //     array(
-        //     //         "Token_Error" => $err
-        //     //     )
-        //     // );
-
-        //     // die($response);
-        // }
     }
 
     public static function getTokenPayload(string $jwt_token): array {
