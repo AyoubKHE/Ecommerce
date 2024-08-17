@@ -159,6 +159,8 @@ class JWTAuthentication
         $newToken = $request->header('refreshed_token');
         if ($newToken !== null) {
 
+            /** @var \Illuminate\Http\Response $response */
+
             $response = $next($request);
 
             return $response->withCookie(cookie("access_token", $newToken));
